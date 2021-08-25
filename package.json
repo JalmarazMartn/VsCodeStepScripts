@@ -2,6 +2,7 @@
 	"name": "vscodestepsscripts",
 	"displayName": "vsCodeStepsScripts",
 	"description": "Generate scripts in VsCode to execute in steps taks, extension commands and open documents",
+	"publisher": "JessAlmarazMartin",	
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -10,13 +11,13 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscodestepsscripts.excuteScript"
+		"onCommand:vscodestepsscripts.executeScript"
 	],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "vscodestepsscripts.excuteScript",
+				"command": "vscodestepsscripts.executeScript",
 				"title": "JAM: Exceute current VsCode Script"
 			}
 		]
