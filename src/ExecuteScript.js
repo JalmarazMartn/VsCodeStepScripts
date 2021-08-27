@@ -1,11 +1,11 @@
 const vscode = require('vscode');
 module.exports = {
-	executeTransSteps: async function (
+	executeScriptSteps: async function (
 	) {
 		await executeScriptSteps();
 	}
 };
-async function executeScriptSteps() {
+async function executeScriptSteps() {	
 	const scriptsSteps = getJSONFromCurrentDoc();
     const vsCodeSteps = scriptsSteps.vsCodeSteps;
     for (let index = 0; index < vsCodeSteps.length; index++) {

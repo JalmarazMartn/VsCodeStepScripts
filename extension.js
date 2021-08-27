@@ -8,11 +8,12 @@ function activate(context) {
 
 	console.log('Congratulations, your extension "vscodestepsscripts" is now active!');
 
-	let disposable = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
-		vscode.window.showInformationMessage('Hello World from vsCodeStepsScripts!');
+	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
+		const executeSteps = require('./src/ExecuteScript');				
+		executeSteps.executeScriptSteps;
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposableExecuteStep);
 }
 // @ts-ignore
 exports.activate = activate;
