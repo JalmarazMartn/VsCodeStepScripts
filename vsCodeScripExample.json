@@ -1,0 +1,16 @@
+{
+    "Descripton": "Script to guide new version steps",
+    "vsCodeSteps": [
+        [
+            {
+                "Descripton": "Delete previous app file"
+            },
+            {
+                "scriptExecType": "task"
+            },
+            {
+                "scriptArgument": "Delete"
+            }
+        ]
+    ]
+}
