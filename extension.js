@@ -10,7 +10,7 @@ function activate(context) {
 
 	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
 		const executeSteps = require('./src/ExecuteScript');				
-		executeSteps.executeScriptSteps;
+		executeSteps.executeScriptSteps();
 	});
 
 	context.subscriptions.push(disposableExecuteStep);
