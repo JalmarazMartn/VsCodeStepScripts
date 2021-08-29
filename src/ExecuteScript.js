@@ -32,7 +32,7 @@ async function executeScriptStep(vsCodeStep)
 			await openDocument(vsCodeStep[2].scriptArgument);
 			break;
 		};
-		await vscode.window.showWarningMessage(vsCodeStep[0].Descripton,{modal:false},'Next');
+		await vscode.window.showInformationMessage(vsCodeStep[0].Descripton,{modal:false},'Excecute Next Step');
 }
 async function executeTask(taskLabel='')
 {	

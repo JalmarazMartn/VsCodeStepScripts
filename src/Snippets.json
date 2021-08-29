@@ -1,0 +1,33 @@
+{
+  "TJAM Init File": {
+    "scope": "json",
+    "prefix": "TJAMInitStepFile",
+    "body": [
+      "{",
+      "    \"Descripton\": \"${1:Description\"},",
+      "\"vsCodeSteps\": [",
+      "${2: Replace this to TJAMScriptStep}",
+     "    ]",
+      "}"
+    ],
+    "description": "JAM Init script steps file"    
+  },
+  "TJAM Script Step": {
+    "scope": "json",
+    "prefix": "TJAMScriptStep",
+    "body": [
+      "[",
+      "    {",
+      "       \"Descripton\": \"${1:StepDescription}\"",
+      "    },",      
+      "    {",
+      "       \"scriptExecType\": \"${2|task,extensionCommand,openDocument|}\"",
+      "    },",
+      "    {",
+      "       \"scriptArgument\": \"${3:Argument}\"",
+      "    }",
+      "]" 
+    ],
+    "description": "JAM Init script steps file"    
+  }
+}

@@ -9,7 +9,29 @@
                 "scriptExecType": "task"
             },
             {
-                "scriptArgument": "Delete"
+                "scriptArgument": "echoDir"
+            }
+        ],
+        [
+            {
+                "Descripton": "Publish package to SAAS"
+            },
+            {
+                "scriptExecType": "extensionCommand"
+            },
+            {
+                "scriptArgument": "al.package"
+            }
+        ],
+        [
+            {
+                "Descripton": "Open app.json to increase version"
+            },
+            {
+                "scriptExecType": "openDocument"
+            },
+            {
+                "scriptArgument": "C:/Users/Jesus/Documents/AL/BCDataSuport/app.json"
             }
         ]
     ]

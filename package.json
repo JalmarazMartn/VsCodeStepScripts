@@ -20,6 +20,12 @@
 				"command": "vscodestepsscripts.executeScript",
 				"title": "JAM: Exceute current VsCode Script"
 			}
+		],
+		"snippets": [
+			{			  
+			  "language": "json",				
+			  "path": "./src/Snippets.json"
+			}
 		]
 	},
 	"scripts": {
