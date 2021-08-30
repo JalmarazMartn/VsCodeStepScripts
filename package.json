@@ -1,6 +1,6 @@
 {
-	"name": "vscodestepsscripts",
-	"displayName": "vsCodeStepsScripts",
+	"name": "vsCodeScriptStepsExecution",
+	"displayName": "Configure and execute a file with steps that execute taks, extension commands and open documents",
 	"description": "Generate scripts in VsCode to execute in steps taks, extension commands and open documents",
 	"publisher": "JessAlmarazMartin",	
 	"version": "0.0.1",
@@ -18,7 +18,7 @@
 		"commands": [
 			{
 				"command": "vscodestepsscripts.executeScript",
-				"title": "JAM: Exceute current VsCode Script"
+				"title": "JAM: Execute current VsCode Script"
 			}
 		],
 		"snippets": [
