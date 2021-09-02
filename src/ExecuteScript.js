@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+var DocName = '';
 module.exports = {
 	executeScriptSteps: async function (
 	) {
@@ -9,18 +10,25 @@ async function executeScriptSteps() {
 	const scriptsSteps = await getJSONFromCurrentDoc();
     const vsCodeSteps = scriptsSteps.vsCodeSteps;
     for (let index = 0; index < vsCodeSteps.length; index++) {
-        await executeScriptStep(vsCodeSteps[index]);
+        await executeScriptStep(index);
     }		
-
 }
 async function getJSONFromCurrentDoc() {
 	var currEditor = vscode.window.activeTextEditor;
-	let CurrDoc = currEditor.document;
-	const JSONFromDoc = JSON.parse((CurrDoc.getText()));
+	DocName = currEditor.document.fileName;
+	return (getJSONFromDocName(DocName));
+}
+async function getJSONFromDocName(DocName='') {	
+	let Document = await vscode.workspace.openTextDocument(DocName);
+	const JSONFromDoc = JSON.parse((Document.getText()));
 	return (JSONFromDoc);
 }
-async function executeScriptStep(vsCodeStep)
+
+async function executeScriptStep(index=0)
 {
+	const scriptsSteps = await getJSONFromDocName(DocName);
+    const vsCodeSteps = scriptsSteps.vsCodeSteps;
+	const vsCodeStep = vsCodeSteps[index];
 	switch(vsCodeStep[1].scriptExecType) {
 		case 'task':
 		  	await executeTask(vsCodeStep[2].scriptArgument);
