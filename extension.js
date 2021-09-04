@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const HTMLView = require('./src/HTMLView');
 
 
 /**
@@ -9,6 +10,9 @@ function activate(context) {
 	console.log('Congratulations, your extension "vscodestepsscripts" is now active!');
 
 	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
+		const HTMlView = require('./src/HTMLView.js');
+		HTMLView.ShowStepHTMLView(context);
+		return;
 		const executeSteps = require('./src/ExecuteScript');				
 		executeSteps.executeScriptSteps();
 	});
