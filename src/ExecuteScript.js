@@ -1,17 +1,25 @@
 const vscode = require('vscode');
 var scriptsSteps = {};
 module.exports = {
-	executeScriptSteps: async function (
+	executeScriptSteps: async function (context
 	) {
-		await executeScriptSteps();
-	}
+		await executeScriptSteps(context);
+	},
+	executeScriptStep: async function (context,index
+		) {
+			await executeScriptStep(context,index);
+		}	
 };
-async function executeScriptSteps() {	
+async function executeScriptSteps(context) {	
 	scriptsSteps = await getJSONFromCurrentDoc();
     const vsCodeSteps = scriptsSteps.vsCodeSteps;
-    for (let index = 0; index < vsCodeSteps.length; index++) {
-        await executeScriptStep(index);
-    }		
+    //for (let index = 0; index < vsCodeSteps.length; index++) {
+    //    await executeScriptStep(index);
+    //}
+	let firstStep = 0;
+	executeScriptStep(context,firstStep);
+	const HTMLView = require('./HTMLView.js')
+	await HTMLView.ShowStepHTMLView(context,scriptsSteps,firstStep);
 }
 async function getJSONFromCurrentDoc() {
 	var currEditor = vscode.window.activeTextEditor;
@@ -24,10 +32,10 @@ async function getJSONFromDocName(DocName='') {
 	return (JSONFromDoc);
 }
 
-async function executeScriptStep(index=0)
+async function executeScriptStep(context,index)
 {	
     var vsCodeSteps = scriptsSteps.vsCodeSteps;
-	const vsCodeStep = vsCodeSteps[index];
+	const vsCodeStep = vsCodeSteps[index];	
 	switch(vsCodeStep[1].scriptExecType) {
 		case 'task':
 		  	await executeTask(vsCodeStep[2].scriptArgument);
@@ -39,7 +47,6 @@ async function executeScriptStep(index=0)
 			await openDocument(vsCodeStep[2].scriptArgument);
 			break;
 		};
-		await vscode.window.showInformationMessage(vsCodeStep[0].Descripton,{modal:false},'Excecute Next Step');
 }
 async function executeTask(taskLabel='')
 {	
@@ -52,5 +59,5 @@ async function executeExtensionCommand(commandName='')
 async function openDocument(documentPath='')
 {		
 	let doc = await vscode.workspace.openTextDocument(documentPath);
-	vscode.window.showTextDocument(doc);
+	await vscode.window.showTextDocument(doc);
 }

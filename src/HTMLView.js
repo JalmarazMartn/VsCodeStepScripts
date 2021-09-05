@@ -1,21 +1,26 @@
 const vscode = require('vscode');
 module.exports = {
-
-	GetTranslationsHtml: function() {return GetHTMLContent()},
-	ShowStepHTMLView: function(context) {ShowStepHTMLView(context)}	
+	ShowStepHTMLView: function(context,scriptsSteps,index) {ShowStepHTMLView(context,scriptsSteps,index)}	
 }
 
 function EscapeRegExp(string) {
 	return string.replace(/[.*+\-?^${}()|[\]\\\/]/g,'\\$&'); // $& significa toda la cadena coincidente
   }
-  function ExecNextStep()
+  async function ExecNextStep(context,index)
   {
+    const ExecuteScript = require('./ExecuteScript.js');
+    let nextIndex = index + 1;
+    await ExecuteScript.executeScriptStep(context,nextIndex);
   }
-  function ShowStepHTMLView(context)
+ function ShowStepHTMLView(context,scriptsSteps,index)
 {
+  var vsCodeSteps = scriptsSteps.vsCodeSteps;
+	const currScripStep = vsCodeSteps[index];	
+
     const WebviewTranslations = vscode.window.createWebviewPanel(
+    
 		'Exec Visual Studio Script Step',
-		'An explanation',
+		currScripStep[0].Description,
 		vscode.ViewColumn.One,
 		{
 		  enableScripts: true
@@ -25,8 +30,9 @@ function EscapeRegExp(string) {
 		message => {
 		  switch (message.command) {
 			case 'Next':
-				ExecNextStep();
+				ExecNextStep(context,index);
 				WebviewTranslations.dispose();
+        ShowStepHTMLView(context,scriptsSteps,index);
 			  return;
 
 			}
@@ -34,9 +40,9 @@ function EscapeRegExp(string) {
         undefined,
         context.subscriptions      
 	);
-WebviewTranslations.webview.html = GetHTMLContent();	
+WebviewTranslations.webview.html = GetHTMLContent(currScripStep[0].Description);
 }
-function GetHTMLContent()
+function GetHTMLContent(currScripStepdescription='')
 {
 	let FinalTable = '';
 	FinalTable = 	`
@@ -57,8 +63,9 @@ function GetHTMLContent()
     .button1 {background-color: #4CAF50;}
     </style>
     </head>   	    
-	<body>
-	<button class="button button1" onclick="Next()">Next Step</button>	
+	<body>` +
+  currScripStepdescription +
+	`<button class="button button1" onclick="Next()">Next Step</button>	
     <Script>
     function Next() {
         const vscode = acquireVsCodeApi();
