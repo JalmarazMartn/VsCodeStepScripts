@@ -7,8 +7,10 @@ function activate(context) {
 	console.log('Congratulations, your extension "vscodestepsscripts" is now active!');
 
 	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
-		const executeSteps = require('./src/ExecuteScript');				
-		executeSteps.executeScriptSteps(context);
+		//const executeSteps = require('./src/ExecuteScript');				
+		//executeSteps.executeScriptSteps(context);
+		const htmlView = require('./src/HTMLViewTest.js');
+		htmlView.ShowStepHTMLView(context);
 	});
 
 	context.subscriptions.push(disposableExecuteStep);

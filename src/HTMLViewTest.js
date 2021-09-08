@@ -1,6 +1,9 @@
 const vscode = require('vscode');
+const { executeScriptSteps } = require('./ExecuteScript.js');
+let CurrentStep = 0;
+var scriptsSteps = {};
 module.exports = {
-	ShowStepHTMLView: function(context,scriptsSteps,index) {ShowStepHTMLView(context,scriptsSteps,index)}	
+	ShowStepHTMLView: function(context) {ShowStepHTMLView(context)}	
 }
 
 function EscapeRegExp(string) {
@@ -12,15 +15,13 @@ function EscapeRegExp(string) {
     let nextIndex = index + 1;
     await ExecuteScript.executeScriptStep(context,nextIndex);
   }
- function ShowStepHTMLView(context,scriptsSteps,index)
+ async function ShowStepHTMLView(context)
 {
-  var vsCodeSteps = scriptsSteps.vsCodeSteps;
-	const currScripStep = vsCodeSteps[index];	
-
-    const WebviewSteps = vscode.window.createWebviewPanel(
-    
+    const ExecuteScript = require('./ExecuteScript.js');
+    scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+    const WebviewSteps = vscode.window.createWebviewPanel(    
 		'Exec Visual Studio Script Step',
-		currScripStep[0].Description,
+		'Exec Visual Studio Script Step',
 		vscode.ViewColumn.One,
 		{
 		  enableScripts: true
@@ -30,9 +31,11 @@ function EscapeRegExp(string) {
 		message => {
 		  switch (message.command) {
 			case 'Next':
-				ExecNextStep(context,index);
-				WebviewSteps.dispose();
-        ShowStepHTMLView(context,scriptsSteps,index);
+				//ExecNextStep(context,index);
+				//WebviewTranslations.dispose();
+        //ShowStepHTMLView(context,scriptsSteps,index);
+        CurrentStep = CurrentStep + 1;
+        WebviewSteps.webview.html = GetHTMLContent('ahora es ' + GetCurrentDescription());
 			  return;
 
 			}
@@ -40,8 +43,9 @@ function EscapeRegExp(string) {
         undefined,
         context.subscriptions      
 	);
-WebviewSteps.webview.html = GetHTMLContent(currScripStep[0].Description);
+WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription());
 }
+
 function GetHTMLContent(currScripStepdescription='')
 {
 	let FinalTable = '';
@@ -80,4 +84,10 @@ function GetHTMLContent(currScripStepdescription='')
   </html>   	
 	`
 	return FinalTable;
+}
+function GetCurrentDescription()
+{
+  var vsCodeSteps = scriptsSteps.vsCodeSteps;
+	const vsCodeStep = vsCodeSteps[CurrentStep];
+  return vsCodeStep[0].Descripton;
 }

@@ -8,11 +8,15 @@ module.exports = {
 	executeScriptStep: async function (context,index
 		) {
 			await executeScriptStep(context,index);
-		}	
+		},
+	getJSONFromCurrentDoc: async function ()
+	{
+		return await getJSONFromCurrentDoc();
+	}
 };
 async function executeScriptSteps(context) {	
 	scriptsSteps = await getJSONFromCurrentDoc();
-    const vsCodeSteps = scriptsSteps.vsCodeSteps;
+    //const vsCodeSteps = scriptsSteps.vsCodeSteps;
     //for (let index = 0; index < vsCodeSteps.length; index++) {
     //    await executeScriptStep(index);
     //}
