@@ -1,29 +1,30 @@
 const vscode = require('vscode');
 var scriptsSteps = {};
 module.exports = {
-	executeScriptSteps: async function (context
-	) {
-		await executeScriptSteps(context);
+	executeScriptSteps: async function () {
+		await executeScriptSteps();
 	},
-	executeScriptStep: async function (context,index
+	executeScriptStep: async function (index
 		) {
-			await executeScriptStep(context,index);
+			await executeScriptStep(index);
 		},
 	getJSONFromCurrentDoc: async function ()
 	{
 		return await getJSONFromCurrentDoc();
+	},
+	SetScriptsSteps: function(NewScriptsSteps) 
+	{
+		SetScriptsSteps(NewScriptsSteps)
 	}
 };
-async function executeScriptSteps(context) {	
+async function executeScriptSteps() {	
 	scriptsSteps = await getJSONFromCurrentDoc();
     //const vsCodeSteps = scriptsSteps.vsCodeSteps;
     //for (let index = 0; index < vsCodeSteps.length; index++) {
     //    await executeScriptStep(index);
     //}
 	let firstStep = 0;
-	executeScriptStep(context,firstStep);
-	const HTMLView = require('./HTMLView.js')
-	await HTMLView.ShowStepHTMLView(context,scriptsSteps,firstStep);
+	executeScriptStep(firstStep);
 }
 async function getJSONFromCurrentDoc() {
 	var currEditor = vscode.window.activeTextEditor;
@@ -36,7 +37,7 @@ async function getJSONFromDocName(DocName='') {
 	return (JSONFromDoc);
 }
 
-async function executeScriptStep(context,index)
+async function executeScriptStep(index)
 {	
     var vsCodeSteps = scriptsSteps.vsCodeSteps;
 	const vsCodeStep = vsCodeSteps[index];	
@@ -64,4 +65,8 @@ async function openDocument(documentPath='')
 {		
 	let doc = await vscode.workspace.openTextDocument(documentPath);
 	await vscode.window.showTextDocument(doc);
+}
+function SetScriptsSteps(NewScriptsSteps)
+{
+  scriptsSteps = NewScriptsSteps;
 }

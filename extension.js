@@ -9,7 +9,7 @@ function activate(context) {
 	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
 		//const executeSteps = require('./src/ExecuteScript');				
 		//executeSteps.executeScriptSteps(context);
-		const htmlView = require('./src/HTMLViewTest.js');
+		const htmlView = require('./src/HTMLView.js');
 		htmlView.ShowStepHTMLView(context);
 	});
 

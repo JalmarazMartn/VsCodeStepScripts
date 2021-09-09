@@ -1,9 +1,9 @@
 {
-    "Descripton": "Script to guide new version steps",
+    "Description": "Script to guide new version steps",
     "vsCodeSteps": [
         [
             {
-                "Descripton": "Delete previous app file"
+                "Description": "Delete previous app file"
             },
             {
                 "scriptExecType": "task"
@@ -14,7 +14,7 @@
         ],
         [
             {
-                "Descripton": "Publish package to SAAS"
+                "Description": "Publish package to SAAS"
             },
             {
                 "scriptExecType": "extensionCommand"
@@ -25,7 +25,7 @@
         ],
         [
             {
-                "Descripton": "Open app.json to increase version"
+                "Description": "Open app.json to increase version"
             },
             {
                 "scriptExecType": "openDocument"

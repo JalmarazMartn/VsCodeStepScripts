@@ -1,26 +1,21 @@
 const vscode = require('vscode');
+let CurrentStep = 0;
+var scriptsSteps = {};
 module.exports = {
-	ShowStepHTMLView: function(context,scriptsSteps,index) {ShowStepHTMLView(context,scriptsSteps,index)}	
+	ShowStepHTMLView: function(context) {ShowStepHTMLView(context)}	
 }
 
 function EscapeRegExp(string) {
 	return string.replace(/[.*+\-?^${}()|[\]\\\/]/g,'\\$&'); // $& significa toda la cadena coincidente
   }
-  async function ExecNextStep(context,index)
-  {
-    const ExecuteScript = require('./ExecuteScript.js');
-    let nextIndex = index + 1;
-    await ExecuteScript.executeScriptStep(context,nextIndex);
-  }
- function ShowStepHTMLView(context,scriptsSteps,index)
+ async function ShowStepHTMLView(context)
 {
-  var vsCodeSteps = scriptsSteps.vsCodeSteps;
-	const currScripStep = vsCodeSteps[index];	
-
-    const WebviewSteps = vscode.window.createWebviewPanel(
-    
-		'Exec Visual Studio Script Step',
-		currScripStep[0].Description,
+    const ExecuteScript = require('./ExecuteScript.js');
+    CurrentStep = 0;
+    scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+    const WebviewSteps = vscode.window.createWebviewPanel(    
+		'Exec Visual Studio Script Steps',
+		scriptsSteps.Description,
 		vscode.ViewColumn.One,
 		{
 		  enableScripts: true
@@ -30,19 +25,28 @@ function EscapeRegExp(string) {
 		message => {
 		  switch (message.command) {
 			case 'Next':
-				ExecNextStep(context,index);
-				WebviewSteps.dispose();
-        ShowStepHTMLView(context,scriptsSteps,index);
+				//ExecNextStep(context,index);
+				//WebviewTranslations.dispose();
+        //ShowStepHTMLView(context,scriptsSteps,index);
+        CurrentStep = CurrentStep + 1;
+        if (CurrentStep >= scriptsSteps.vsCodeSteps.length)
+        {
+          WebviewSteps.dispose();
+          return;
+        }
+        ExecuteCurrentStep();
+        WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
 			  return;
-
 			}
         },
         undefined,
         context.subscriptions      
 	);
-WebviewSteps.webview.html = GetHTMLContent(currScripStep[0].Description);
+ExecuteCurrentStep();
+WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
 }
-function GetHTMLContent(currScripStepdescription='')
+
+function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
 {
 	let FinalTable = '';
 	FinalTable = 	`
@@ -63,9 +67,11 @@ function GetHTMLContent(currScripStepdescription='')
     .button1 {background-color: #4CAF50;}
     </style>
     </head>   	    
-	<body>` +
+	<body><br>Excuted: ` +
   currScripStepdescription +
-	`<button class="button button1" onclick="Next()">Next Step</button>	
+  `</br><br>Next: ` +
+  nextScripStepdescription +  
+	`</br><button class="button button1" onclick="Next()">Next Step</button>	
     <Script>
     function Next() {
         const vscode = acquireVsCodeApi();
@@ -80,4 +86,18 @@ function GetHTMLContent(currScripStepdescription='')
   </html>   	
 	`
 	return FinalTable;
+}
+function GetCurrentDescription(index=0)
+{
+  var vsCodeSteps = scriptsSteps.vsCodeSteps;
+	const vsCodeStep = vsCodeSteps[index];
+  if (vsCodeStep)
+  {return vsCodeStep[0].Description;}
+  return 'Finish';
+}
+function ExecuteCurrentStep()
+{
+  const ExecuteScript = require('./ExecuteScript.js');
+  ExecuteScript.SetScriptsSteps(scriptsSteps);
+  ExecuteScript.executeScriptStep(CurrentStep);
 }

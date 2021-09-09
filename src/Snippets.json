@@ -4,7 +4,7 @@
     "prefix": "TJAMInitStepFile",
     "body": [
       "{",
-      "    \"Descripton\": \"${1:Description\"},",
+      "    \"Description\": \"${1:Description\"},",
       "\"vsCodeSteps\": [",
       "${2: Replace this to TJAMScriptStep}",
      "    ]",
@@ -18,7 +18,7 @@
     "body": [
       "[",
       "    {",
-      "       \"Descripton\": \"${1:StepDescription}\"",
+      "       \"Description\": \"${1:StepDescription}\"",
       "    },",      
       "    {",
       "       \"scriptExecType\": \"${2|task,extensionCommand,openDocument|}\"",
