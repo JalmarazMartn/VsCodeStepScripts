@@ -5,24 +5,22 @@ module.exports = {
 		await executeScriptSteps();
 	},
 	executeScriptStep: async function (index
-		) {
-			await executeScriptStep(index);
-		},
-	getJSONFromCurrentDoc: async function ()
-	{
+	) {
+		await executeScriptStep(index);
+	},
+	getJSONFromCurrentDoc: async function () {
 		return await getJSONFromCurrentDoc();
 	},
-	SetScriptsSteps: function(NewScriptsSteps) 
-	{
+	SetScriptsSteps: function (NewScriptsSteps) {
 		SetScriptsSteps(NewScriptsSteps)
 	}
 };
-async function executeScriptSteps() {	
+async function executeScriptSteps() {
 	scriptsSteps = await getJSONFromCurrentDoc();
-    //const vsCodeSteps = scriptsSteps.vsCodeSteps;
-    //for (let index = 0; index < vsCodeSteps.length; index++) {
-    //    await executeScriptStep(index);
-    //}
+	//const vsCodeSteps = scriptsSteps.vsCodeSteps;
+	//for (let index = 0; index < vsCodeSteps.length; index++) {
+	//    await executeScriptStep(index);
+	//}
 	let firstStep = 0;
 	executeScriptStep(firstStep);
 }
@@ -31,42 +29,52 @@ async function getJSONFromCurrentDoc() {
 	currEditor.document.fileName;
 	return (getJSONFromDocName(currEditor.document.fileName));
 }
-async function getJSONFromDocName(DocName='') {	
+async function getJSONFromDocName(DocName = '') {
 	let Document = await vscode.workspace.openTextDocument(DocName);
 	const JSONFromDoc = JSON.parse((Document.getText()));
 	return (JSONFromDoc);
 }
 
-async function executeScriptStep(index)
-{	
-    var vsCodeSteps = scriptsSteps.vsCodeSteps;
-	const vsCodeStep = vsCodeSteps[index];	
-	switch(vsCodeStep[1].scriptExecType) {
+async function executeScriptStep(index) {
+	var vsCodeSteps = scriptsSteps.vsCodeSteps;
+	const vsCodeStep = vsCodeSteps[index];
+	switch (vsCodeStep[1].scriptExecType) {
 		case 'task':
-		  	await executeTask(vsCodeStep[2].scriptArgument);
-		  	break;
+			await executeTask(vsCodeStep[2].scriptArgument);
+			break;
 		case 'extensionCommand':
 			await executeExtensionCommand(vsCodeStep[2].scriptArgument);
 			break;
 		case 'openDocument':
 			await openDocument(vsCodeStep[2].scriptArgument);
 			break;
-		};
+	};
 }
-async function executeTask(taskLabel='')
-{	
-	vscode.commands.executeCommand('workbench.action.tasks.runTask',taskLabel);
+async function executeTask(taskLabel = '') {
+	try {
+		let execution = await vscode.commands.executeCommand('workbench.action.tasks.runTask', taskLabel);
+	}
+	catch (error) {
+		vscode.window.showErrorMessage(error.message);
+	}
 }
-async function executeExtensionCommand(commandName='')
-{	
-	vscode.commands.executeCommand(commandName);
+async function executeExtensionCommand(commandName = '') {
+	try {
+		let execution = await vscode.commands.executeCommand(commandName);
+	}
+	catch (error) {
+		vscode.window.showErrorMessage(error.message);
+	}
 }
-async function openDocument(documentPath='')
-{		
-	let doc = await vscode.workspace.openTextDocument(documentPath);
-	await vscode.window.showTextDocument(doc);
+async function openDocument(documentPath = '') {
+	try {
+		let doc = await vscode.workspace.openTextDocument(documentPath);
+		await vscode.window.showTextDocument(doc);
+	}
+	catch (error) {
+		vscode.window.showErrorMessage(error.message);
+	}
 }
-function SetScriptsSteps(NewScriptsSteps)
-{
-  scriptsSteps = NewScriptsSteps;
+function SetScriptsSteps(NewScriptsSteps) {
+	scriptsSteps = NewScriptsSteps;
 }
