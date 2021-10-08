@@ -3,7 +3,7 @@
 	"displayName": "VsCode script steps excution",
 	"description": "Configure and execute a file with steps that execute taks, extension commands and open documents",
 	"publisher": "JessAlmarazMartin",	
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": {
 		"vscode": "^1.46.0"
 	},

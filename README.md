@@ -34,3 +34,6 @@ Future release: error control, extension explorer to discover method to execute 
 
 Initial release. Good luck!!!
 
+### 0.0.2
+
+Error control. Do not begin execution on web opening.
