@@ -36,4 +36,5 @@ Initial release. Good luck!!!
 
 ### 0.0.2
 
-Error control. Do not begin execution on web opening.
+Error control. Do not begin execution on web opening. 
+New icon from https://commons.wikimedia.org/wiki/File:DonAdams.jpg
