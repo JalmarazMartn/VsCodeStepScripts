@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-let CurrentStep = 0;
+let CurrentStep = -1;
 var scriptsSteps = {};
 module.exports = {
 	ShowStepHTMLView: function(context) {ShowStepHTMLView(context)}	
@@ -11,7 +11,7 @@ function EscapeRegExp(string) {
  async function ShowStepHTMLView(context)
 {
     const ExecuteScript = require('./ExecuteScript.js');
-    CurrentStep = 0;
+    CurrentStep = -1;
     scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
     const WebviewSteps = vscode.window.createWebviewPanel(    
 		'Exec Visual Studio Script Steps',
@@ -67,7 +67,7 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
     .button1 {background-color: #4CAF50;}
     </style>
     </head>   	    
-	<body><br>Excuted: ` +
+	<body><br>Executed: ` +
   currScripStepdescription +
   `</br><br>Next: ` +
   nextScripStepdescription +  
@@ -89,6 +89,10 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
 }
 function GetCurrentDescription(index=0)
 {
+  if (index == -1)
+  {
+    return 'Begin with Next Button';
+  }
   var vsCodeSteps = scriptsSteps.vsCodeSteps;
 	const vsCodeStep = vsCodeSteps[index];
   if (vsCodeStep)
@@ -96,7 +100,11 @@ function GetCurrentDescription(index=0)
   return 'Finish';
 }
 function ExecuteCurrentStep()
-{
+{  
+  if (CurrentStep < 0)
+  {
+    return;
+  }
   const ExecuteScript = require('./ExecuteScript.js');
   ExecuteScript.SetScriptsSteps(scriptsSteps);
   ExecuteScript.executeScriptStep(CurrentStep);

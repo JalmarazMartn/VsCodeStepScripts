@@ -62,8 +62,8 @@ async function executeExtensionCommand(commandName = '') {
 	try {
 		let execution = await vscode.commands.executeCommand(commandName);
 	}
-	catch (error) {
-		vscode.window.showErrorMessage(error.message);
+	catch (error) {				
+				ShowErrorPanel(error.message);
 	}
 }
 async function openDocument(documentPath = '') {
@@ -72,8 +72,15 @@ async function openDocument(documentPath = '') {
 		await vscode.window.showTextDocument(doc);
 	}
 	catch (error) {
-		vscode.window.showErrorMessage(error.message);
+		ShowErrorPanel(error.message);
 	}
+}
+function ShowErrorPanel(errMessage='')
+{
+	let ErrorExec = vscode.window.createOutputChannel('ErrorExcec');
+	ErrorExec.appendLine(errMessage);	
+	ErrorExec.show();	
+	vscode.window.showErrorMessage(errMessage);
 }
 function SetScriptsSteps(NewScriptsSteps) {
 	scriptsSteps = NewScriptsSteps;
