@@ -6,10 +6,38 @@ This extension has a command to execute in steps these kinds of actions:
 - Open a file to edit or View.
 - Execute an installed extension command.
 
+## Create json Step file
+
+In a new and empty json file type snippet "TJAMInitStepFile" and it will bring the format of the scrip file.
+
+The begining is a Description for the script and the start to create steps.
+{
+    "Description": "Script to guide new version steps",
+    "vsCodeSteps": [
+
+## Create a new step
+
+In the file you can create a new step typing snippet TJAMScriptStep. This create the struture of an step, this way:
+
+    [   {           "Description": "Description of the step"},
+        {           "scriptExecType": "task / extensionCommand/ openDocument"        },
+        {           "scriptArgument": "Argument (depends on scriptExecType)"        }]
+
+## Argument in step
+
+scriptArgument are diferent uses depending "scriptExecType" option:
+
+- task->"label" of the task in tsk.json file in ".vscode" folder. If you want to know more about this subject chek this link https://code.visualstudio.com/docs/editor/tasks.
+
+- extensionCommand->name of an extension command for example "git.commit", "git.push", "al.package". In a future I want to make an extension explorer to show his command and api for vscode devs.  
+
+- openDocument->document path to open and change something before next step.
+
 ## Features
 
 Create JSON file with steps configuration, in the file execute command "JAM: Execute current VsCode Script".
-You will see a tab with the action step excuted, and a button to execute until the end all the steps of the file.
+You will see a tab with the action step excuted, and a button to execute Nex step until the end all the steps of the file:
+
 Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting json file.
 
 ## Requirements
@@ -17,8 +45,6 @@ Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scr
 VsCode.
 
 ## Extension Settings
-
-
 
 ## Known Issues
 
