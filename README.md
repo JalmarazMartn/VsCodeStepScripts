@@ -38,8 +38,8 @@ scriptArgument are diferent uses depending "scriptExecType" option:
 Create JSON file with steps configuration, in the file execute command "JAM: Execute current VsCode Script".
 You will see a tab with the action step excuted, and a button to execute Nex step until the end all the steps of the file:
 
-![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/tGetKeys.gif?raw=true)
-.png?raw=true)
+![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/NextStep.png?raw=true)
+
 
 
 Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting json file.
