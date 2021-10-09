@@ -1,10 +1,12 @@
 # vscodestepsscripts README
 
-This extension has a command to execute in steps these kinds of actions:
+This extension executes scripts with several steps, that performs these three kind of actions:
 
 - VsCode tasks.
 - Open a file to edit or View.
 - Execute an installed extension command.
+
+You must give the script of step in a json format. You can compose it following intructions bellow.
 
 ## Create json Step file
 
@@ -25,22 +27,22 @@ In the file you can create a new step typing snippet TJAMScriptStep. This create
 
 ## Argument in step
 
-scriptArgument are diferent uses depending "scriptExecType" option:
+scriptArgument have diferent definitions depending "scriptExecType" options:
 
 - task->"label" of the task in tsk.json file in ".vscode" folder. If you want to know more about this subject chek this link https://code.visualstudio.com/docs/editor/tasks.
 
-- extensionCommand->name of an extension command for example "git.commit", "git.push", "al.package". In a future I want to make an extension explorer to show his command and api for vscode devs.  
+- extensionCommand->name of an extension command for example "git.commit", "git.push", "al.package". In a future I want to make an extension explorer to show their commands and its api for vscode devs.  
 
-- openDocument->document path to open and change something before next step.
+- openDocument->document path to open it and change something before next step.
 
 ## Features
 
-Create JSON file with steps configuration, in the file execute command "JAM: Execute current VsCode Script".
-You will see a tab with the action step excuted, and a button to execute Nex step until the end all the steps of the file:
+You can create JSON file with steps configuration and when complete the file, execute command "JAM: Execute current VsCode Script".
+Then you will see a tab with the action step excuted, and a button to execute next step until the end all the steps of the .json file:
 
 ![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/NextStep.png?raw=true)
 
-Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting json file.
+Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting file.
 
 ## Requirements
 
@@ -54,11 +56,10 @@ VsCode.
 
 ### 0.0.1
 
-This is a very beta release, due to the needs to start using it. Documetation will be extended and features will be improved.
-Future release: error control, extension explorer to discover method to execute (and an extra features to explore extensions API). Good luck!!!
+Beta Release. Good luck!!!
 
 ### 0.0.2
 
-Error control. Do not begin execution on web opening. 
+Improved, wtih error control. Do not begin execution on web opening. 
 New icon from https://commons.wikimedia.org/wiki/File:DonAdams.jpg
 
