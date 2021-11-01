@@ -60,6 +60,17 @@ Beta Release. Good luck!!!
 
 ### 0.0.2
 
-Improved, wtih error control. Do not begin execution on web opening. 
+Improved, with error control. Do not begin execution on web opening. 
 New icon from https://commons.wikimedia.org/wiki/File:DonAdams.jpg
 
+### 0.0.3
+
+Fixing issues
+
+### 0.0.4
+
+Fixing issues
+
+### 0.0.5
+
+Skip Next button.
