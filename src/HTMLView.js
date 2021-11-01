@@ -23,12 +23,9 @@ function EscapeRegExp(string) {
 	  );
 	  WebviewSteps.webview.onDidReceiveMessage(
 		message => {
+      CurrentStep = CurrentStep + 1;
 		  switch (message.command) {
-			case 'Next':
-				//ExecNextStep(context,index);
-				//WebviewTranslations.dispose();
-        //ShowStepHTMLView(context,scriptsSteps,index);
-        CurrentStep = CurrentStep + 1;
+			case 'Next':        
         if (CurrentStep >= scriptsSteps.vsCodeSteps.length)
         {
           WebviewSteps.dispose();
@@ -37,7 +34,15 @@ function EscapeRegExp(string) {
         ExecuteCurrentStep();
         WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
 			  return;
-			}
+        case 'Skip':
+          if (CurrentStep >= scriptsSteps.vsCodeSteps.length)
+          {
+            WebviewSteps.dispose();
+            return;
+          }
+          WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
+          return;  
+      }
         },
         undefined,
         context.subscriptions      
@@ -65,6 +70,7 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
       cursor: pointer;
     }    
     .button1 {background-color: #4CAF50;}
+    .button2 {background-color: #D2691E;}
     </style>
     </head>   	    
 	<body><br>Executed: ` +
@@ -72,6 +78,7 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
   `</br><br>Next: ` +
   nextScripStepdescription +  
 	`</br><button class="button button1" onclick="Next()">Next Step</button>	
+  <button class="button button2" onclick="Skip()">Skip Next</button>
     <Script>
     function Next() {
         const vscode = acquireVsCodeApi();
@@ -80,7 +87,14 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
         text: "Nothing"
       });
       }
-    </Script>    
+      function Skip() {
+        const vscode = acquireVsCodeApi();
+      vscode.postMessage({
+        command: "Skip",
+        text: "Nothing"
+      });
+      }
+      </Script>    
 	
   </body>
   </html>   	
