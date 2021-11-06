@@ -74,3 +74,7 @@ Fixing issues
 ### 0.0.5
 
 Skip Next button.
+
+### 0.0.6
+
+Confirm message for Skip Next button. If not does not skip step.

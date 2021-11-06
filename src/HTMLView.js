@@ -2,59 +2,59 @@ const vscode = require('vscode');
 let CurrentStep = -1;
 var scriptsSteps = {};
 module.exports = {
-	ShowStepHTMLView: function(context) {ShowStepHTMLView(context)}	
+  ShowStepHTMLView: function (context) { ShowStepHTMLView(context) }
 }
 
 function EscapeRegExp(string) {
-	return string.replace(/[.*+\-?^${}()|[\]\\\/]/g,'\\$&'); // $& significa toda la cadena coincidente
-  }
- async function ShowStepHTMLView(context)
-{
-    const ExecuteScript = require('./ExecuteScript.js');
-    CurrentStep = -1;
-    scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
-    const WebviewSteps = vscode.window.createWebviewPanel(    
-		'Exec Visual Studio Script Steps',
-		scriptsSteps.Description,
-		vscode.ViewColumn.One,
-		{
-		  enableScripts: true
-		}
-	  );
-	  WebviewSteps.webview.onDidReceiveMessage(
-		message => {
+  return string.replace(/[.*+\-?^${}()|[\]\\\/]/g, '\\$&'); // $& significa toda la cadena coincidente
+}
+async function ShowStepHTMLView(context) {
+  const ExecuteScript = require('./ExecuteScript.js');
+  CurrentStep = -1;
+  scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+  const WebviewSteps = vscode.window.createWebviewPanel(
+    'Exec Visual Studio Script Steps',
+    scriptsSteps.Description,
+    vscode.ViewColumn.One,
+    {
+      enableScripts: true
+    }
+  );
+  WebviewSteps.webview.onDidReceiveMessage(
+    message => {
+      const IsSkipMessageCommand = message.command.indexOf('Skip') > -1;
+      const IsNextMessageCommand = message.command.indexOf('Next') > -1;
       CurrentStep = CurrentStep + 1;
-		  switch (message.command) {
-			case 'Next':        
-        if (CurrentStep >= scriptsSteps.vsCodeSteps.length)
-        {
-          WebviewSteps.dispose();
-          return;
-        }
-        ExecuteCurrentStep();
-        WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
-			  return;
-        case 'Skip':
-          if (CurrentStep >= scriptsSteps.vsCodeSteps.length)
-          {
-            WebviewSteps.dispose();
-            return;
-          }
-          WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
-          return;  
+      if (CurrentStep >= scriptsSteps.vsCodeSteps.length) {
+        WebviewSteps.dispose();
+        return;
       }
-        },
-        undefined,
-        context.subscriptions      
-	);
-ExecuteCurrentStep();
-WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep),GetCurrentDescription(CurrentStep+1));
+      if (IsSkipMessageCommand) {
+        const ConfirmationSkipMessage = 'Do you want to skip step"' + GetCurrentDescription(CurrentStep) + '"?';
+        //if (vscode.window.showInformationMessage(ConfirmationSkipMessage,{modal:true}, 'Yes', 'No') == 'No') {
+        vscode.window.showInformationMessage(ConfirmationSkipMessage, { modal: true }, 'Yes', 'No').then(
+          (resolve) => {
+            if (resolve == 'No') {
+              CurrentStep = CurrentStep - 1;                            
+              console.log('No');
+            }
+            WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
+          });
+      } else if (IsNextMessageCommand) {
+        ExecuteCurrentStep();
+      }
+      WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));        
+    },
+    undefined,
+    context.subscriptions
+  );
+  ExecuteCurrentStep();
+  WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
 }
 
-function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
-{
-	let FinalTable = '';
-	FinalTable = 	`
+function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription = '') {
+  let FinalTable = '';
+  FinalTable = `
     <html>   	    
 	<head>
     <style>
@@ -74,10 +74,10 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
     </style>
     </head>   	    
 	<body><br>Executed: ` +
-  currScripStepdescription +
-  `</br><br>Next: ` +
-  nextScripStepdescription +  
-	`</br><button class="button button1" onclick="Next()">Next Step</button>	
+    currScripStepdescription +
+    `</br><br>Next: ` +
+    nextScripStepdescription +
+    `</br><button class="button button1" onclick="Next()">Next Step</button>	
   <button class="button button2" onclick="Skip()">Skip Next</button>
     <Script>
     function Next() {
@@ -99,27 +99,27 @@ function GetHTMLContent(currScripStepdescription='',nextScripStepdescription='')
   </body>
   </html>   	
 	`
-	return FinalTable;
+  return FinalTable;
 }
-function GetCurrentDescription(index=0)
-{
-  if (index == -1)
-  {
+function GetCurrentDescription(index = 0) {
+  if (index == -1) {
     return 'Begin with Next Button';
   }
   var vsCodeSteps = scriptsSteps.vsCodeSteps;
-	const vsCodeStep = vsCodeSteps[index];
-  if (vsCodeStep)
-  {return vsCodeStep[0].Description;}
+  const vsCodeStep = vsCodeSteps[index];
+  if (vsCodeStep) { return vsCodeStep[0].Description; }
   return 'Finish';
 }
-function ExecuteCurrentStep()
-{  
-  if (CurrentStep < 0)
-  {
+function ExecuteCurrentStep() {
+  if (CurrentStep < 0) {
     return;
   }
   const ExecuteScript = require('./ExecuteScript.js');
   ExecuteScript.SetScriptsSteps(scriptsSteps);
   ExecuteScript.executeScriptStep(CurrentStep);
+}
+function ConfirmationModalMessage(message) {
+  return new Promise((resolve, reject) => {
+    vscode.window.showInformationMessage(message, { modal: true }, 'Yes', 'No').then(resolve);
+  });
 }
