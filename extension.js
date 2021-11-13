@@ -14,12 +14,21 @@ function activate(context) {
 	});
 
 	context.subscriptions.push(disposableExecuteStep);
-}
-// @ts-ignore
-exports.activate = activate;
+	const treeView = require('./src/treeview.js');
+	const executeSteps = require('./src/ExecuteScript.js');	
+	//register the tree view from module treeview.js
+	let disposableTreeView = vscode.commands.registerCommand('vscodestepsscripts.treeView', function () {
+		executeSteps.getJSONFromCurrentDoc().then(function (data) {
+			treeView.createTreeView(data);
+		});
+	});
+	context.subscriptions.push(disposableTreeView);
 
+			// @ts-ignore
+	exports.activate = activate;
+}
 // this method is called when your extension is deactivated
-function deactivate() {}
+function deactivate() { }
 
 module.exports = {
 	// @ts-ignore

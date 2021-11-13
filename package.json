@@ -12,7 +12,8 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscodestepsscripts.executeScript"
+		"onCommand:vscodestepsscripts.executeScript",
+		"onCommand:vscodestepsscripts.treeView"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -20,6 +21,10 @@
 			{
 				"command": "vscodestepsscripts.executeScript",
 				"title": "JAM: Execute current VsCode Script"
+			},
+			{
+				"command": "vscodestepsscripts.treeView",
+				"title": "JAM: Beta treeview"
 			}
 		],
 		"snippets": [
@@ -27,7 +32,15 @@
 				"language": "json",
 				"path": "./src/Snippets.json"
 			}
-		]
+		],
+		"views": {
+			"explorer":[
+				{
+				"id": "treeView",
+				"name": "Expore JSON object"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"lint": "eslint .",
