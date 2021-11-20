@@ -21,7 +21,7 @@
       "       \"Description\": \"${1:StepDescription}\"",
       "    },",      
       "    {",
-      "       \"scriptExecType\": \"${2|task,extensionCommand,openDocument|}\"",
+      "       \"scriptExecType\": \"${2|task,extensionCommand,openDocument,openExternal|}\"",
       "    },",
       "    {",
       "       \"scriptArgument\": \"${3:Argument}\"",

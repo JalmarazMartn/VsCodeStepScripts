@@ -48,6 +48,9 @@ async function executeScriptStep(index) {
 		case 'openDocument':
 			await openDocument(vsCodeStep[2].scriptArgument);
 			break;
+		case 'openExternal':
+			await openExternal(vsCodeStep[2].scriptArgument);
+			break;
 	};
 }
 async function executeTask(taskLabel = '') {
@@ -62,12 +65,13 @@ async function executeExtensionCommand(commandName = '') {
 	try {
 		let execution = await vscode.commands.executeCommand(commandName);
 	}
-	catch (error) {				
-				ShowErrorPanel(error.message);
+	catch (error) {
+		ShowErrorPanel(error.message);
 	}
 }
 async function openDocument(documentPath = '') {
 	try {
+
 		let doc = await vscode.workspace.openTextDocument(documentPath);
 		await vscode.window.showTextDocument(doc);
 	}
@@ -75,11 +79,18 @@ async function openDocument(documentPath = '') {
 		ShowErrorPanel(error.message);
 	}
 }
-function ShowErrorPanel(errMessage='')
-{
+async function openExternal(elementPath = '') {
+	try {
+		vscode.env.openExternal(vscode.Uri.parse(elementPath));
+	}
+	catch (error) {
+		ShowErrorPanel(error.message);
+	}
+}
+function ShowErrorPanel(errMessage = '') {
 	let ErrorExec = vscode.window.createOutputChannel('ErrorExcec');
-	ErrorExec.appendLine(errMessage);	
-	ErrorExec.show();	
+	ErrorExec.appendLine(errMessage);
+	ErrorExec.show();
 	vscode.window.showErrorMessage(errMessage);
 }
 function SetScriptsSteps(NewScriptsSteps) {

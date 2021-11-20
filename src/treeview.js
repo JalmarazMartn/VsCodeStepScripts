@@ -8,6 +8,7 @@ module.exports = {
 };
 //create vscode tree view from JSON data
 function createTreeView(jsonData) {
+    console.log(jsonData);
     vscode.window.registerTreeDataProvider('treeView', new TreeDataProvider(jsonData));
     vscode.window.createTreeView('treeView', { treeDataProvider: new TreeDataProvider(jsonData) });
 }
@@ -21,15 +22,13 @@ class TreeDataProvider {
     getTreeItem(element) {
         //return element;
         const value = JSON.parse(element.label);
+
         if (typeof value === 'object') {
-            console.log(value);
             return new vscode.TreeItem(GetKeyLiteralStringFromJson(value), vscode.TreeItemCollapsibleState.Collapsed);
         }
         else {
             return new vscode.TreeItem(JSON.stringify(value), vscode.TreeItemCollapsibleState.None);
         }
-
-        //return new vscode.TreeItem('Label' + JSON.stringify(this._jsonData), vscode.TreeItemCollapsibleState.None);        
     }
     getChildren(element) {
         if (element) {
@@ -52,8 +51,10 @@ function getTreeItemArrayFromJSON(JSONData) {
     let itemArray = [];
     for (var key in JSONData) {
         const value = JSONData[key];
+        //const label = key + ': ' + JSON.stringify(value);
+        const label = JSON.stringify(value);
         if (typeof value === 'object') {
-            itemArray.push(new vscode.TreeItem(JSON.stringify(value), vscode.TreeItemCollapsibleState.Collapsed));
+            itemArray.push(new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.Collapsed));
         }
         else {
             if (JSONData.hasOwnProperty(key)) {
@@ -63,6 +64,7 @@ function getTreeItemArrayFromJSON(JSONData) {
     }
     return itemArray;
 }
+
 function GetKeyLiteralStringFromJson(jsonData) {
     for (var key in jsonData) {
         const value = jsonData[key];
@@ -74,5 +76,5 @@ function GetKeyLiteralStringFromJson(jsonData) {
                 return key;
             }
         }
-}
+    }
 }
