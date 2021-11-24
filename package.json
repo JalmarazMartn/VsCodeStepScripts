@@ -1,9 +1,9 @@
 {
 	"name": "vsCodeScriptStepsExecution",
-	"displayName": "VsCode script steps excution",
-	"description": "Configure and execute a file with steps that execute taks, extension commands and open documents",
+	"displayName": "VsCode assistant maker",
+	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
