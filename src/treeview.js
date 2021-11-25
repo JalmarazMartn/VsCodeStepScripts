@@ -49,6 +49,12 @@ class TreeDataProvider {
 
 function getTreeItemArrayFromJSON(JSONData) {
     let itemArray = [];
+    if (JSONData) 
+    { const names = Object.getOwnPropertyNames(JSONData);
+        console.log(names[0]);
+        console.log(names[1]);
+        console.log(names[2]);
+     }
     for (var key in JSONData) {
         const value = JSONData[key];
         //const label = key + ': ' + JSON.stringify(value);
