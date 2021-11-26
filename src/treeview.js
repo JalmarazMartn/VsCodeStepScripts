@@ -8,7 +8,6 @@ module.exports = {
 };
 //create vscode tree view from JSON data
 function createTreeView(jsonData) {
-    console.log(jsonData);
     vscode.window.registerTreeDataProvider('treeView', new TreeDataProvider(jsonData));
     vscode.window.createTreeView('treeView', { treeDataProvider: new TreeDataProvider(jsonData) });
 }
@@ -49,14 +48,18 @@ class TreeDataProvider {
 
 function getTreeItemArrayFromJSON(JSONData) {
     let itemArray = [];
-    if (JSONData) 
-    { const names = Object.getOwnPropertyNames(JSONData);
-        console.log(names[0]);
-        console.log(names[1]);
-        console.log(names[2]);
-     }
+    let names = [];
+    if (JSONData) {
+        names = Object.getOwnPropertyNames(JSONData);
+    }
+    let i = -1;
     for (var key in JSONData) {
+        i = i + 1;
+        if (names[i]) {
+            console.log(names[i]);
+        }
         const value = JSONData[key];
+        console.log(value);
         //const label = key + ': ' + JSON.stringify(value);
         const label = JSON.stringify(value);
         if (typeof value === 'object') {
