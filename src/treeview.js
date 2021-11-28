@@ -34,10 +34,10 @@ class TreeDataProvider {
             //return element.children;
             //return [new vscode.TreeItem(JSON.stringify(this._jsonData), vscode.TreeItemCollapsibleState.None)];
             const value = JSON.parse(element.label);
-            return getTreeItemArrayFromJSON(value);
+            return getTreeItemArrayFromJSON(value, false);
         }
         else {
-            return getTreeItemArrayFromJSON(this._jsonData);
+            return getTreeItemArrayFromJSON(this._jsonData, true);
         }
 
     }
@@ -46,7 +46,7 @@ class TreeDataProvider {
     }
 }
 
-function getTreeItemArrayFromJSON(JSONData) {
+function getTreeItemArrayFromJSON(JSONData, AddKey = false) {
     let itemArray = [];
     let names = [];
     if (JSONData) {
@@ -55,35 +55,58 @@ function getTreeItemArrayFromJSON(JSONData) {
     let i = -1;
     for (var key in JSONData) {
         i = i + 1;
-        if (names[i]) {
-            console.log(names[i]);
-        }
         const value = JSONData[key];
-        console.log(value);
         //const label = key + ': ' + JSON.stringify(value);
-        const label = JSON.stringify(value);
+        let label = JSON.stringify(value);
+        if (names[i]) {
+            //console.log(names[i]);
+            const objName = '{"' + names[i] + '": ';
+            if (getObjectNameFromJSONObject(JSONData) !== names[i] || AddKey) {
+                label = objName + label + '}';
+            }
+        }
+        console.log('..');
+        console.log('content==>' + i + ' ' + label);
         if (typeof value === 'object') {
             itemArray.push(new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.Collapsed));
         }
         else {
-            if (JSONData.hasOwnProperty(key)) {
-                itemArray.push(new vscode.TreeItem(JSON.stringify(value), vscode.TreeItemCollapsibleState.None));
-            }
+            //if (JSONData.hasOwnProperty(key)) {
+            itemArray.push(new vscode.TreeItem(label, vscode.TreeItemCollapsibleState.None));
+            //}
         }
     }
     return itemArray;
 }
 
 function GetKeyLiteralStringFromJson(jsonData) {
+    const names = Object.getOwnPropertyNames(jsonData);
     for (var key in jsonData) {
         const value = jsonData[key];
+        return key;
+        console.log('.');
+        console.log('content==>' + key + ' ' + JSON.stringify(value));
+        if (names[0]) {
+            console.log('name==>' + names[0]);
+            return names[0];
+        }
         if (typeof value === 'object') {
-            return GetKeyLiteralStringFromJson(value);
+            //return GetKeyLiteralStringFromJson(value);
+            //if (names[0]) {
+            //    console.log('name==>' + names[0]);
+            //    return names[0];
+            //}
         }
-        else {
-            if (jsonData.hasOwnProperty(key)) {
-                return key;
-            }
-        }
+        //if (jsonData.hasOwnProperty(key)) {
+        //    return key;
+        //}
+        //return key;
     }
+}
+function getObjectNameFromJSONObject(jsonData) {
+    const names = Object.getOwnPropertyNames(jsonData);
+    if (names[0]) {
+        return names[0];
+    }
+    return '';
 }
