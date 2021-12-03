@@ -47,9 +47,9 @@ Then you will see a tab with the action step excuted, and a button to execute ne
 
 Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting file.
 
-### Beta!! JSON in tree view
+### JSON in tree view
 
-with command "JAM: show JSON in treeview (BETA)" you can see the current json file in editor in a tree view. The tree view panel is shown in explorer tab at the bottom. With the title "EXPLORE JSON OBJECT". Not visible by default. The final (future) goal is to show installed extensions information, this way you can see the commands and their api.
+with command "JAM: show current JSON in treeview" you can see the current json file in editor in a tree view. The tree view panel is shown in extension panel, at the bottom. With the title "EXPLORE JSON OBJECT". Not visible by default. The final (future) goal is to show installed extensions information, this way you can see the commands and their api.
 
 ## Requirements
 
@@ -89,3 +89,7 @@ Confirm message for Skip Next button. If not does not skip step.
 ### 0.0.7
 
 Create new step execution option openExternal. Beta release of JSON explorer with tree view.
+
+### 0.0.9
+
+Complete json explorer.

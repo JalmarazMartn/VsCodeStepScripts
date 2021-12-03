@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -24,7 +24,7 @@
 			},
 			{
 				"command": "vscodestepsscripts.treeView",
-				"title": "JAM: show JSON in treeview (BETA)"
+				"title": "JAM: show current JSON in treeview"
 			}
 		],
 		"snippets": [
