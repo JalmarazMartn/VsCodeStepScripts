@@ -93,3 +93,7 @@ Create new step execution option openExternal. Beta release of JSON explorer wit
 ### 0.0.9
 
 Complete json explorer.
+
+### 0.0.10
+
+Show error message if exec step command is unknown.

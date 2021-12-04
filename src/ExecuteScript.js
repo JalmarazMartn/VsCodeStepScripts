@@ -52,6 +52,7 @@ async function executeScriptStep(index) {
 			await openExternal(vsCodeStep[2].scriptArgument);
 			break;
 	};
+	ShowErrorPanel(`Unkown scriptExecType: ${vsCodeStep[1].scriptExecType}`);
 }
 async function executeTask(taskLabel = '') {
 	try {
