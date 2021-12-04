@@ -62,12 +62,10 @@ function getTreeItemArrayFromJSON(JSONData) {
             labelName = names[nameNumber];
         }
         else {
-            labelName = key;
+            labelName = key;            
         }
         nameNumber = nameNumber + 1;
         const value = JSONData[key];        
-        console.log('.');
-        console.log(value);
         const labelID = pushJSONObjectToArray(value,labelName);    
         if (typeof value === 'object') {                        
             itemArray.push(new vscode.TreeItem(labelID, vscode.TreeItemCollapsibleState.Collapsed));
