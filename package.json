@@ -13,7 +13,8 @@
 	],
 	"activationEvents": [
 		"onCommand:vscodestepsscripts.executeScript",
-		"onCommand:vscodestepsscripts.treeView"
+		"onCommand:vscodestepsscripts.treeView",
+		"onCommand:vscodestepsscripts.getExtensions"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -25,6 +26,10 @@
 			{
 				"command": "vscodestepsscripts.treeView",
 				"title": "JAM: show current JSON in treeview"
+			},
+			{
+				"command": "vscodestepsscripts.getExtensions",
+				"title": "JAM: Get installed extensions info and save to JSON file"
 			}
 		],
 		"snippets": [

@@ -12,8 +12,8 @@ function activate(context) {
 		const htmlView = require('./src/HTMLView.js');
 		htmlView.ShowStepHTMLView(context);
 	});
-
 	context.subscriptions.push(disposableExecuteStep);
+
 	const treeView = require('./src/treeview.js');
 	const executeSteps = require('./src/ExecuteScript.js');	
 	//register the tree view from module treeview.js
@@ -23,6 +23,12 @@ function activate(context) {
 		});
 	});
 	context.subscriptions.push(disposableTreeView);
+
+	let getExtensions = vscode.commands.registerCommand('vscodestepsscripts.getExtensions', function () {
+		let extensionsInfo = require('./src/extensionsInfo.js');
+		extensionsInfo.GetExtensions();
+	});
+	context.subscriptions.push(getExtensions);
 
 			// @ts-ignore
 	exports.activate = activate;
