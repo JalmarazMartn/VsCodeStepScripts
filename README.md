@@ -51,6 +51,10 @@ Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scr
 
 with command "JAM: show current JSON in treeview" you can see the current json file in editor in a tree view. The tree view panel is shown in extension panel, at the bottom. With the title "EXPLORE JSON OBJECT". Not visible by default. The final (future) goal is to show installed extensions information, this way you can see the commands and their api.
 
+### Show all commands from all installed extensions
+
+With the command "JAM: Get installed extensions command info and save to JSON file" you can save in a json file all the commands from all installed extensions, trough a file dialog.
+
 ## Requirements
 
 VsCode.
@@ -97,3 +101,8 @@ Complete json explorer.
 ### 0.0.10
 
 Show error message if exec step command is unknown.
+
+### 0.0.11
+
+- Show all commands from installed extensions, and save them in a json file.
+- Fix an error in this featre: Show error message if exec step command is unknown.

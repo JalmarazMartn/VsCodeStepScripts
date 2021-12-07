@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.10",
+	"version": "0.0.11",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -29,7 +29,7 @@
 			},
 			{
 				"command": "vscodestepsscripts.getExtensions",
-				"title": "JAM: Get installed extensions info and save to JSON file"
+				"title": "JAM: Get installed extensions command info and save to JSON file"
 			}
 		],
 		"snippets": [

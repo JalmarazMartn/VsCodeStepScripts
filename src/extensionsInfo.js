@@ -7,18 +7,24 @@ module.exports = {
 };
 async function GetExtensions() {
     let AllExtensions = vscode.extensions.all;
-    let extensionsString = '[';
+    let extensionsString = '';
     for (var i = 0; i < AllExtensions.length; i++) {
         const Extension = AllExtensions[i];
-        //get contributes form app.json extension info
-        const extensionContributes = Extension.packageJSON.contributes;
-        if (i > 0 ){ extensionsString += ',' }
-        extensionsString = extensionsString + '"' + Extension.id +'"';
-        if (extensionContributes) {
-            extensionsString = extensionsString + ',' + JSON.stringify(extensionContributes);
+        //get contributes form app.json extension info        
+        //filter extensions with commands contributed
+        try {
+            const ExtensionCommands = Extension.packageJSON.contributes.commands;
+            if (ExtensionCommands) {
+                if (extensionsString !== '') { extensionsString += ',' }
+                extensionsString = extensionsString + '{"' + Extension.id + '":';
+                extensionsString = extensionsString + JSON.stringify(ExtensionCommands) + '}';
+                GetExtensionAPI(Extension.id);
+            }
+        }
+        catch (error) {
         }
     }
-    extensionsString += ']';
+    extensionsString = '[' + extensionsString + ']';
     const savePath = await vscode.window.showSaveDialog({
         defaultUri: vscode.Uri.file('/extensionsInfo.json'),
         saveLabel: 'Save Extensions',
@@ -35,12 +41,11 @@ async function GetExtensions() {
     });
 
 }
-async function GetALExtension(ExtensionId = '') {
+async function GetExtensionAPI(ExtensionId = '') {
     try {
         const ALExtension = vscode.extensions.getExtension(ExtensionId);
         if (!(ALExtension.isActive)) { ALExtension.activate }
         const ALAPI = ALExtension.exports;
-        console.log(ALExtension);
         if (ALAPI) {
             console.log('Extension =========>' + ExtensionId);
             console.log(ALAPI);
