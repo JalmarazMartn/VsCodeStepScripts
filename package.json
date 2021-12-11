@@ -14,7 +14,9 @@
 	"activationEvents": [
 		"onCommand:vscodestepsscripts.executeScript",
 		"onCommand:vscodestepsscripts.treeView",
-		"onCommand:vscodestepsscripts.getExtensions"
+		"onCommand:vscodestepsscripts.getExtensions",
+		"onLanguage:al",
+		"onLanguage:javascript"
 	],
 	"main": "./extension.js",
 	"contributes": {
