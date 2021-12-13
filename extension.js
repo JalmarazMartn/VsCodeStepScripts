@@ -30,13 +30,6 @@ function activate(context) {
 	});
 	context.subscriptions.push(getExtensions);
 
-	const customDiagnostics = vscode.languages.createDiagnosticCollection("customDiagnostics");
-	context.subscriptions.push(customDiagnostics);
-	const customerDiagnostics = require('./src/customerDiagnostics.js');
-	customerDiagnostics.subscribeToDocumentChanges(context, customDiagnostics);
-
-	context.subscriptions.push(vscode.languages.registerCodeActionsProvider('al',new customerDiagnostics.customDiagnosticsClass));
-
 			// @ts-ignore
 	exports.activate = activate;
 }
