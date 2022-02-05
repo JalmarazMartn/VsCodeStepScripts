@@ -15,9 +15,8 @@
 		"onCommand:vscodestepsscripts.executeScript",
 		"onCommand:vscodestepsscripts.treeView",
 		"onCommand:vscodestepsscripts.getExtensions",
-		"onLanguage:al",
-		"onLanguage:javascript"
-	],
+		"onStartupFinished"
+		],
 	"main": "./extension.js",
 	"contributes": {
 		"commands": [

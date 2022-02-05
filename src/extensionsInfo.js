@@ -3,9 +3,31 @@ module.exports = {
     GetExtensions:
         function () {
             GetExtensions();
+        },
+    GetExtensionsString:
+        function () {
+            return GetExtensionsString();
         }
 };
 async function GetExtensions() {
+    const extensionsString = await GetExtensionsString();
+    const savePath = await vscode.window.showSaveDialog({
+        defaultUri: vscode.Uri.file('/extensionsInfo.json'),
+        saveLabel: 'Save Extensions',
+        filters: {
+            'JSON': ['json']
+        }
+    });
+
+    const fs = require('fs');
+    fs.writeFile(savePath.fsPath, extensionsString, function (err) {
+        if (err) {
+            vscode.window.showErrorMessage('Error saving file:' + err);
+        }
+    });
+
+}
+async function GetExtensionsString() {
     let AllExtensions = vscode.extensions.all;
     let extensionsString = '';
     for (var i = 0; i < AllExtensions.length; i++) {
@@ -25,22 +47,10 @@ async function GetExtensions() {
         }
     }
     extensionsString = '[' + extensionsString + ']';
-    const savePath = await vscode.window.showSaveDialog({
-        defaultUri: vscode.Uri.file('/extensionsInfo.json'),
-        saveLabel: 'Save Extensions',
-        filters: {
-            'JSON': ['json']
-        }
-    });
-
-    const fs = require('fs');
-    fs.writeFile(savePath.fsPath, extensionsString, function (err) {
-        if (err) {
-            vscode.window.showErrorMessage('Error saving file:' + err);
-        }
-    });
-
+    return extensionsString;
 }
+
+
 async function GetExtensionAPI(ExtensionId = '') {
     try {
         const ALExtension = vscode.extensions.getExtension(ExtensionId);

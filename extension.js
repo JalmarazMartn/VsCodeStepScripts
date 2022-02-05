@@ -30,6 +30,19 @@ function activate(context) {
 	});
 	context.subscriptions.push(getExtensions);
 
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+		{ language: 'json', scheme: 'file' },
+
+		{
+			// eslint-disable-next-line no-unused-vars
+			provideCompletionItems(document, position) {
+				const ArgumentCompletion = require('./src/ArgumentCompletion.js');
+				return ArgumentCompletion.GetArguments();
+			}
+		},
+		'tGetArguments' // trigger
+	));
+
 			// @ts-ignore
 	exports.activate = activate;
 }

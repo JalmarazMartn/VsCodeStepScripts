@@ -35,8 +35,7 @@ async function ShowStepHTMLView(context) {
         vscode.window.showInformationMessage(ConfirmationSkipMessage, { modal: true }, 'Yes', 'No').then(
           (resolve) => {
             if (resolve == 'No') {
-              CurrentStep = CurrentStep - 1;                            
-              console.log('No');
+              CurrentStep = CurrentStep - 1;                                          
             }
             WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
           });
