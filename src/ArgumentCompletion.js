@@ -1,17 +1,35 @@
 const vscode = require('vscode');
-const commandName = 'tGetArguments';
+const commandName = 'tSelArguments';
 module.exports = {
-	GetArguments: function () {
-		return (GetArguments());
+	SelectArguments: function () {
+		return (SelectArguments());
+	},
+	WriteFileDialogResultInCurrentEditPostion: async function () {
+		await WriteFileDialogResultInCurrentEditPostion();
+	},
+	WriteFolderDialogResultInCurrentEditPostion: async function () {
+		await WriteFolderDialogResultInCurrentEditPostion();
 	}
-
 }
-async function GetArguments() {
+
+async function SelectArguments() {
+	const ScriptExecType = GetScriptExecType();
+	const SelectFileDialogOption = (ScriptExecType === 'openDocument') || (ScriptExecType === 'openExternal');
 	const commandCompletion = new vscode.CompletionItem(commandName);
 	commandCompletion.kind = vscode.CompletionItemKind.Snippet;
 	commandCompletion.filterText = commandName;
 	commandCompletion.label = commandName;
-	commandCompletion.insertText = new vscode.SnippetString(await GetArgumentsFromType());
+	if (SelectFileDialogOption) {
+		commandCompletion.command = {
+			command: 'vscodestepsscripts.WriteFromFileDialog',
+			title: '',
+			arguments: []
+		}		
+		commandCompletion.insertText = '';
+	}
+	else {
+		commandCompletion.insertText = new vscode.SnippetString(await GetArgumentsFromType());
+	}
 	commandCompletion.detail = 'Ease the use of arguments';
 	commandCompletion.documentation = '';
 	return [commandCompletion];
@@ -19,13 +37,12 @@ async function GetArguments() {
 async function GetArgumentsFromType() {
 	//switch on scriptExecType
 	const ScriptExecType = GetScriptExecType();
-	switch (ScriptExecType) {
-		case 'extensionCommand':
-			return await GetExtensionsCommands();
-		case 'openDocument':
-			return 'od';
-		default:
-			return '';
+	if (ScriptExecType == 'extensionCommand') {
+		return await GetExtensionsCommands();
+	}
+	else
+	{
+		return '';
 	}
 }
 async function GetExtensionsCommands() {
@@ -60,6 +77,9 @@ function convertElementToSnippetText(SourceElement = '') {
 	ConvertedElement = ConvertedElement.replaceAll(',', '\\,');
 	// @ts-ignore
 	ConvertedElement = ConvertedElement.replaceAll(')', '');
+	// @ts-ignore	
+	ConvertedElement = ConvertedElement.replaceAll('\\','/');
+
 	return ConvertedElement;
 }
 function GetScriptExecType() {
@@ -81,4 +101,43 @@ function GetScriptExecType() {
 		return '';
 	}
 
+}
+async function WriteFileDialogResultInCurrentEditPostion() {
+	InsertTextInCurrentEditPostion(convertElementToSnippetText(await GetFileDialogResult(false)));
+}
+async function WriteFolderDialogResultInCurrentEditPostion() {
+	InsertTextInCurrentEditPostion(convertElementToSnippetText(await GetFileDialogResult(true)));
+}
+
+async function InsertTextInCurrentEditPostion(NewText='')
+{
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return;
+	}
+	const document = editor.document;
+	if (!document) {
+		return;
+	}
+
+	const WSEdit = new vscode.WorkspaceEdit;
+	WSEdit.insert(document.uri,editor.selection.end,NewText);
+	await vscode.workspace.applyEdit(WSEdit);
+}
+
+
+async function GetFileDialogResult(selectFolder = false) {
+	//set openFile
+	return vscode.window.showOpenDialog({
+		canSelectFiles: !selectFolder,
+		canSelectFolders: selectFolder,
+		canSelectMany: false,
+		openLabel: 'Open'
+	}).then(fileUri => {
+		if (fileUri) {
+			const filePath = fileUri[0].fsPath.toString();
+			return filePath;
+		}
+		return '';
+	});
 }

@@ -30,6 +30,19 @@ function activate(context) {
 	});
 	context.subscriptions.push(getExtensions);
 
+	let WriteFromFolderDialog = vscode.commands.registerCommand('vscodestepsscripts.WriteFromFolderDialog', function () {
+		let ArgumentCompletion = require('./src/ArgumentCompletion.js');
+		ArgumentCompletion.WriteFolderDialogResultInCurrentEditPostion();
+	});
+	context.subscriptions.push(WriteFromFolderDialog);
+
+	let WriteFromFileDialog = vscode.commands.registerCommand('vscodestepsscripts.WriteFromFileDialog', function () {
+		let ArgumentCompletion = require('./src/ArgumentCompletion.js');
+		ArgumentCompletion.WriteFileDialogResultInCurrentEditPostion();
+	});
+	context.subscriptions.push(WriteFromFileDialog);
+
+
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
 		{ language: 'json', scheme: 'file' },
 
@@ -37,10 +50,10 @@ function activate(context) {
 			// eslint-disable-next-line no-unused-vars
 			provideCompletionItems(document, position) {
 				const ArgumentCompletion = require('./src/ArgumentCompletion.js');
-				return ArgumentCompletion.GetArguments();
+				return ArgumentCompletion.SelectArguments();
 			}
 		},
-		'tGetArguments' // trigger
+		'tSelArguments' // trigger
 	));
 
 			// @ts-ignore

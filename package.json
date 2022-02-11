@@ -15,6 +15,8 @@
 		"onCommand:vscodestepsscripts.executeScript",
 		"onCommand:vscodestepsscripts.treeView",
 		"onCommand:vscodestepsscripts.getExtensions",
+		"onCommand:vscodestepsscripts.WriteFromFileDialog",
+		"onCommand:vscodestepsscripts.WriteFromFolderDialog",
 		"onStartupFinished"
 		],
 	"main": "./extension.js",
@@ -31,6 +33,14 @@
 			{
 				"command": "vscodestepsscripts.getExtensions",
 				"title": "JAM: Get installed extensions command info and save to JSON file"
+			},
+			{
+				"command": "vscodestepsscripts.WriteFromFileDialog",
+				"title": "JAM: Open a file dialog and write selection in document"
+			},
+			{
+				"command": "vscodestepsscripts.WriteFromFolderDialog",
+				"title": "JAM: Open a folder dialog and write selection in document"
 			}
 		],
 		"snippets": [
