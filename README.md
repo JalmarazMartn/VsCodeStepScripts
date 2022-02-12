@@ -120,3 +120,7 @@ Show error message if exec step command is unknown.
 
 - Show all commands from installed extensions, and save them in a json file.
 - Fix an error in this featre: Show error message if exec step command is unknown.
+
+### 0.0.12
+
+TSelArguments snippet to help arguments setting in each step.
