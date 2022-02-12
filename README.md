@@ -38,6 +38,20 @@ scriptArgument have diferent definitions depending "scriptExecType" options:
 
 - openExternal->url to open in browser or folder address to open it in file explorer.
 
+## Snippet to help arguments selection
+
+If you are in a new step, in Argument setup you can use snippet "TSelArguments" to set the argument of the step.
+
+The behavior of this snippet is conditioned by the "scriptExecType" of the step:
+
+- task. It will show the task names in task.json file in ".vscode" folder, to select one.
+
+- extensionCommand. It will show all intalled extension commands, to select one.
+
+- openDocument. It will display a file dialog, and writes selected path in argument value.
+
+- openExternal. Same above but with a folder.
+
 ## Features
 
 You can create JSON file with steps configuration and when complete the file, execute command "JAM: Execute current VsCode Script".
