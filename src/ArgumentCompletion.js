@@ -20,8 +20,12 @@ async function SelectArguments() {
 	commandCompletion.filterText = commandName;
 	commandCompletion.label = commandName;
 	if (SelectFileDialogOption) {
+		let commandName = 'vscodestepsscripts.WriteFromFileDialog';
+		if (ScriptExecType == 'openExternal') {
+			commandName = 'vscodestepsscripts.WriteFromFolderDialog';
+		}
 		commandCompletion.command = {
-			command: 'vscodestepsscripts.WriteFromFileDialog',
+			command: commandName,
 			title: '',
 			arguments: []
 		}		
@@ -42,7 +46,9 @@ async function GetArgumentsFromType() {
 	}
 	else
 	{
-		return '';
+		if (ScriptExecType == 'task') {
+			return await GetWorkspaceTasks();
+		}
 	}
 }
 async function GetExtensionsCommands() {
@@ -140,4 +146,18 @@ async function GetFileDialogResult(selectFolder = false) {
 		}
 		return '';
 	});
+}
+async function GetWorkspaceTasks() {
+	const tasks = await vscode.tasks.fetchTasks();
+	//iterate in tasks and retuns an array of task names
+	let taskNames = '';
+	for (let i = 0; i < tasks.length; i++) {
+		if (taskNames !== '') {
+			taskNames = taskNames + ',';
+		}
+
+		taskNames = taskNames + convertElementToSnippetText(tasks[i].name);
+	}
+	taskNames = '${1|' + taskNames + '|}';
+	return taskNames;
 }
