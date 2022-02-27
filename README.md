@@ -69,6 +69,14 @@ with command "JAM: show current JSON in treeview" you can see the current json f
 
 With the command "JAM: Get installed extensions command info and save to JSON file" you can save in a json file all the commands from all installed extensions, trough a file dialog.
 
+### Command "JAM: Open a file dialog and write selection in document"
+
+This command will open a file dialog and write the selected file in document position.
+
+### Command "JAM: Open a folder dialog and write selection in document"
+
+This command will open a folder dialog and write the selected folder in document position.
+
 ## Requirements
 
 VsCode.
@@ -124,3 +132,7 @@ Show error message if exec step command is unknown.
 ### 0.0.12
 
 TSelArguments snippet to help arguments setting in each step.
+
+### 0.0.13
+
+command "JAM: Open a file dialog and write selection in document" and command "JAM: Open a folder dialog and write selection in document".

@@ -20,16 +20,16 @@ async function SelectArguments() {
 	commandCompletion.filterText = commandName;
 	commandCompletion.label = commandName;
 	if (SelectFileDialogOption) {
-		let commandName = 'vscodestepsscripts.WriteFromFileDialog';
+		let SnippetcommandName = 'vscodestepsscripts.WriteFromFileDialog';
 		if (ScriptExecType == 'openExternal') {
-			commandName = 'vscodestepsscripts.WriteFromFolderDialog';
+			SnippetcommandName = 'vscodestepsscripts.WriteFromFolderDialog';
 		}
 		commandCompletion.command = {
-			command: commandName,
+			command: SnippetcommandName,
 			title: '',
 			arguments: []
 		}		
-		commandCompletion.insertText = '';
+		commandCompletion.insertText = commandName;
 	}
 	else {
 		commandCompletion.insertText = new vscode.SnippetString(await GetArgumentsFromType());
@@ -120,13 +120,26 @@ async function InsertTextInCurrentEditPostion(NewText='')
 	const editor = vscode.window.activeTextEditor;
 	if (!editor) {
 		return;
-	}
+	}	
 	const document = editor.document;
 	if (!document) {
 		return;
 	}
 
 	const WSEdit = new vscode.WorkspaceEdit;
+	const currentlineNumber = editor.selection.start.line;
+	const currentline = document.lineAt(currentlineNumber);
+	const currentlineText = currentline.text;
+	const commandNameStart = currentlineText.indexOf(commandName);
+	if (commandNameStart === -1) {
+		// @ts-ignore
+		NewText = NewText.replaceAll('"', '');
+	}
+	else {				
+		const newStartPosition = new vscode.Position(currentlineNumber, commandNameStart);
+		const newEndPosition = new vscode.Position(currentlineNumber, commandNameStart+commandName.length);		
+		WSEdit.delete(document.uri, new vscode.Range(newStartPosition, newEndPosition));
+	}
 	WSEdit.insert(document.uri,editor.selection.end,NewText);
 	await vscode.workspace.applyEdit(WSEdit);
 }
