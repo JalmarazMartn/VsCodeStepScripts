@@ -6,6 +6,7 @@ This extension executes scripts with several steps, that performs these three ki
 - Open a file to edit or View.
 - Execute an installed extension command.
 - Open an external element: a website or a folder.
+- Execute a direct shell command in the terminal P.E. copy 'MyFile.txt'.
 
 You must give the script of step in a json format. You can compose it following intructions bellow.
 
@@ -23,7 +24,7 @@ The begining is a Description for the script and the start to create steps.
 In the file you can create a new step typing snippet TJAMScriptStep. This create the struture of an step, this way:
 
     [   {           "Description": "Description of the step"},
-        {           "scriptExecType": "task / extensionCommand/ openDocument"        },
+        {           "scriptExecType": "task / extensionCommand/ openDocument/ openExternal/ executeCommandShell"        },
         {           "scriptArgument": "Argument (depends on scriptExecType)"        }]
 
 ## Argument in step
@@ -38,6 +39,8 @@ scriptArgument have diferent definitions depending "scriptExecType" options:
 
 - openExternal->url to open in browser or folder address to open it in file explorer.
 
+- executeCommandShell->command to execute in the terminal. You must write e dos command shell here. Example: "Del MyFile.txt"
+
 ## Snippet to help arguments selection
 
 If you are in a new step, in Argument setup you can use snippet "TSelArguments" to set the argument of the step.
@@ -51,6 +54,8 @@ The behavior of this snippet is conditioned by the "scriptExecType" of the step:
 - openDocument. It will display a file dialog, and writes selected path in argument value.
 
 - openExternal. Same above but with a folder.
+
+- executeCommandShell. There is no any help for this exec type.
 
 ## Features
 
@@ -136,3 +141,7 @@ TSelArguments snippet to help arguments setting in each step.
 ### 0.0.13
 
 command "JAM: Open a file dialog and write selection in document" and command "JAM: Open a folder dialog and write selection in document".
+
+### 0.0.14
+
+New exec type: executeCommandShell. With this type you can execute a command in the terminal. The argument is the command to execute.

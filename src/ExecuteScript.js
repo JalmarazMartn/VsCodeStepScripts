@@ -51,6 +51,9 @@ async function executeScriptStep(index) {
 		case 'openExternal':
 			await openExternal(vsCodeStep[2].scriptArgument);
 			break;
+		case 'executeCommandShell':
+			await executeCommandShell(vsCodeStep[2].scriptArgument);
+			break;
 		default:
 			ShowErrorPanel(`Unkown scriptExecType: ${vsCodeStep[1].scriptExecType}`);
 			break;
@@ -64,6 +67,10 @@ async function executeTask(taskLabel = '') {
 		vscode.window.showErrorMessage(error.message);
 	}
 }
+async function executeCommandShell(commendShell = '') {
+	createTaskWithoutWriteTaskJson('On the air',commendShell, '', '', '$tsc', []);
+}
+
 async function executeExtensionCommand(commandName = '') {
 	try {
 		let execution = await vscode.commands.executeCommand(commandName);
@@ -98,4 +105,23 @@ function ShowErrorPanel(errMessage = '') {
 }
 function SetScriptsSteps(NewScriptsSteps) {
 	scriptsSteps = NewScriptsSteps;
+}
+//function create a new vscode task and run it without write task.json
+async function createTaskWithoutWriteTaskJson(taskName = '',taskCommand = '', taskArgs = '', taskGroup = '', taskProblemMatcher = '$tsc', taskProblemMatcherType = []) {
+
+	let task = new vscode.Task(
+		{
+			type: 'shell',
+			command: taskCommand,
+			args: taskArgs,
+			group: taskGroup,
+			problemMatcher: taskProblemMatcher,
+			problemMatcherType: taskProblemMatcherType
+		},
+		vscode.TaskScope.Workspace,
+		taskName,
+		'task',
+		new vscode.ShellExecution(taskCommand)
+	);
+	vscode.tasks.executeTask(task);
 }
