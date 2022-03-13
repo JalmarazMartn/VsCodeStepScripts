@@ -145,3 +145,7 @@ command "JAM: Open a file dialog and write selection in document" and command "J
 ### 0.0.14
 
 New exec type: executeCommandShell. With this type you can execute a command in the terminal. The argument is the command to execute.
+
+### 0.0.15
+
+If there is no open editor with json step file, the extension will open it with a file dialog.

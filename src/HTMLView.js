@@ -12,6 +12,16 @@ async function ShowStepHTMLView(context) {
   const ExecuteScript = require('./ExecuteScript.js');
   CurrentStep = -1;
   scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+  if (!scriptsSteps) {
+    //get a file name with dialog
+    let fileName = await vscode.window.showOpenDialog({
+      canSelectFiles: true,
+      canSelectFolders: false,
+      canSelectMany: false,
+      openLabel: 'Select a file'
+    });
+    scriptsSteps = await ExecuteScript.getJSONFromDocName(fileName[0].fsPath);
+  }
   const WebviewSteps = vscode.window.createWebviewPanel(
     'Exec Visual Studio Script Steps',
     scriptsSteps.Description,

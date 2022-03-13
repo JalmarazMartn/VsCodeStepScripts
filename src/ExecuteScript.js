@@ -11,12 +11,26 @@ module.exports = {
 	getJSONFromCurrentDoc: async function () {
 		return await getJSONFromCurrentDoc();
 	},
+	getJSONFromDocName: async function (DocName = '') {
+		return await getJSONFromDocName(DocName);
+	},
 	SetScriptsSteps: function (NewScriptsSteps) {
 		SetScriptsSteps(NewScriptsSteps)
 	}
 };
 async function executeScriptSteps() {
 	scriptsSteps = await getJSONFromCurrentDoc();
+	if (!scriptsSteps.vsCodeSteps) {
+		//get a file name with dialog
+		let fileName = await vscode.window.showOpenDialog({
+			canSelectFiles: true,
+			canSelectFolders: false,
+			canSelectMany: false,
+			openLabel: 'Select a file'
+		});
+		scriptsSteps = await getJSONFromDocName(fileName[0].fsPath);
+	}
+
 	//const vsCodeSteps = scriptsSteps.vsCodeSteps;
 	//for (let index = 0; index < vsCodeSteps.length; index++) {
 	//    await executeScriptStep(index);
@@ -26,7 +40,10 @@ async function executeScriptSteps() {
 }
 async function getJSONFromCurrentDoc() {
 	var currEditor = vscode.window.activeTextEditor;
-	currEditor.document.fileName;
+	//currEditor.document.fileName;
+	if (!currEditor) {
+		return;
+	}
 	return (getJSONFromDocName(currEditor.document.fileName));
 }
 async function getJSONFromDocName(DocName = '') {
