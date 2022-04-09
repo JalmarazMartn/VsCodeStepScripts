@@ -98,7 +98,9 @@ async function executeExtensionCommand(commandName = '') {
 }
 async function openDocument(documentPath = '') {
 	try {
-
+		if (!fileExists(documentPath)) {
+			documentPath = getCurrentWorkspaceFolder() + '\\' + documentPath;
+		};
 		let doc = await vscode.workspace.openTextDocument(documentPath);
 		await vscode.window.showTextDocument(doc);
 	}
@@ -141,4 +143,20 @@ async function createTaskWithoutWriteTaskJson(taskName = '',taskCommand = '', ta
 		new vscode.ShellExecution(taskCommand)
 	);
 	vscode.tasks.executeTask(task);
+}
+//new funtion: check if file with complete file path exists
+function fileExists(filePath) {
+	const fs = require('fs');
+	try {
+		fs.accessSync(filePath, fs.constants.F_OK);
+	} catch (err) {
+		return false;
+	}
+	return true;
+}
+function getCurrentWorkspaceFolder() {
+	let workspaceFolders = vscode.workspace.workspaceFolders;
+	if (workspaceFolders) {
+		return workspaceFolders[0].uri.fsPath;
+	}
 }

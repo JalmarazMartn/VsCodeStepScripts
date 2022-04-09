@@ -149,3 +149,7 @@ New exec type: executeCommandShell. With this type you can execute a command in 
 ### 0.0.15
 
 If there is no open editor with json step file, the extension will open it with a file dialog.
+
+### 0.0.16
+
+if in Opendocument step is not detailed the doc path, the extension will try to open it with the workspace root. So, you can only type "app.json" if the file is in the root of the workspace, avoiding to type all the path. This way you can re-use the steps json file in many workspaces.
