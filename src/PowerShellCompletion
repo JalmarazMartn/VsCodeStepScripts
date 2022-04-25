@@ -1,0 +1,33 @@
+const vscode = require('vscode');
+const commandName = 'tpowwerShellExcution';
+module.exports = {
+    GetPowerShellExecution: function () {
+        return (GetPowerShellExecution());
+    }
+};
+async function GetPowerShellExecution() {
+	const commandCompletion = new vscode.CompletionItem(commandName);
+	commandCompletion.kind = vscode.CompletionItemKind.Snippet;
+	commandCompletion.filterText = commandName;
+	commandCompletion.label = commandName;
+	commandCompletion.insertText = new vscode.SnippetString(await GetPowerShellFileCmd());
+	commandCompletion.detail = 'Ease the use of arguments';
+	commandCompletion.documentation = '';
+	return [commandCompletion];
+}
+async function GetPowerShellFileCmd() {
+    const PSFile = await GetPowerShellFile();
+    return `powershell -executionpolicy bypass -File '${PSFile}' 'argument'`;
+}
+
+async function showPickPS1FileDialog() {
+    return await vscode.window.showOpenDialog({
+        canSelectFiles: true,
+        canSelectFolders: false,
+        canSelectMany: false,
+        openLabel: 'Select PS1 file',
+        filters: {
+            'PowerShell Scripts': ['ps1']
+        }
+    });
+}
