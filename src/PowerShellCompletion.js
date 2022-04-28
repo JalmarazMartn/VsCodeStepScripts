@@ -12,22 +12,19 @@ async function GetPowerShellExecution() {
 	commandCompletion.label = commandName;
 	commandCompletion.insertText = new vscode.SnippetString(await GetPowerShellFileCmd());
 	commandCompletion.detail = 'Ease the use of arguments';
-	commandCompletion.documentation = '';
+	commandCompletion.documentation = 'Select powershell file to execute when dialog raises';
+    let SnippetcommandName = 'vscodestepsscripts.WriteFromFileDialog';
+    commandCompletion.command = {
+        command: SnippetcommandName,
+        title: '',
+        arguments: []
+    }		
+
 	return [commandCompletion];
 }
 async function GetPowerShellFileCmd() {
-    const PSFile = await GetPowerShellFile();
-    return `powershell -executionpolicy bypass -File '${PSFile}' 'argument'`;
-}
 
-async function showPickPS1FileDialog() {
-    return await vscode.window.showOpenDialog({
-        canSelectFiles: true,
-        canSelectFolders: false,
-        canSelectMany: false,
-        openLabel: 'Select PS1 file',
-        filters: {
-            'PowerShell Scripts': ['ps1']
-        }
-    });
+    const PSFile = '${1:}';    
+    const PSArguments = '${2:Argument}';
+    return `"powershell -executionpolicy bypass -File '${PSFile}' '${PSArguments}'"`;
 }

@@ -56,6 +56,19 @@ function activate(context) {
 		'tSelArguments' // trigger
 	));
 
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+		{ language: 'json', scheme: 'file' },
+
+		{
+			// eslint-disable-next-line no-unused-vars
+			provideCompletionItems(document, position) {
+				const PowerShellCompletion = require('./src/PowerShellCompletion.js');
+				return PowerShellCompletion.GetPowerShellExecution();
+			}
+		},
+		'tpowwerShellExcution' // trigger
+	));
+
 			// @ts-ignore
 	exports.activate = activate;
 }
