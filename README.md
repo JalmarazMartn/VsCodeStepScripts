@@ -165,3 +165,7 @@ if in Opendocument step is not detailed the doc path, the extension will try to 
 ### 0.0.17
 
 New snippet "tpowwerShellExcution" to write a command shell state to execute a ps1 file.
+
+### 0.0.18
+
+New button in HTML view "Pick and Exec".
