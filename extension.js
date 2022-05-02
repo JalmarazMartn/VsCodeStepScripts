@@ -3,9 +3,6 @@ const vscode = require('vscode');
  * @param {vscode.ExtensionContext} context
  */
 function activate(context) {
-
-	console.log('Congratulations, your extension "vscodestepsscripts" is now active!');
-
 	let disposableExecuteStep = vscode.commands.registerCommand('vscodestepsscripts.executeScript', function () {
 		//const executeSteps = require('./src/ExecuteScript');				
 		//executeSteps.executeScriptSteps(context);
@@ -15,7 +12,7 @@ function activate(context) {
 	context.subscriptions.push(disposableExecuteStep);
 
 	const treeView = require('./src/treeview.js');
-	const executeSteps = require('./src/ExecuteScript.js');	
+	const executeSteps = require('./src/ExecuteScript.js');
 	//register the tree view from module treeview.js
 	let disposableTreeView = vscode.commands.registerCommand('vscodestepsscripts.treeView', function () {
 		executeSteps.getJSONFromCurrentDoc().then(function (data) {
@@ -41,7 +38,6 @@ function activate(context) {
 		ArgumentCompletion.WriteFileDialogResultInCurrentEditPostion();
 	});
 	context.subscriptions.push(WriteFromFileDialog);
-
 
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
 		{ language: 'json', scheme: 'file' },
@@ -69,7 +65,7 @@ function activate(context) {
 		'tpowwerShellExcution' // trigger
 	));
 
-			// @ts-ignore
+	// @ts-ignore
 	exports.activate = activate;
 }
 // this method is called when your extension is deactivated

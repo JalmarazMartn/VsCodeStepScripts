@@ -16,6 +16,9 @@ module.exports = {
 	},
 	SetScriptsSteps: function (NewScriptsSteps) {
 		SetScriptsSteps(NewScriptsSteps)
+	},
+	PickScriptStepToExecute: async function () {		
+		PickScriptStepToExecute();
 	}
 };
 async function executeScriptSteps() {
@@ -52,7 +55,7 @@ async function getJSONFromDocName(DocName = '') {
 	return (JSONFromDoc);
 }
 
-async function executeScriptStep(index) {
+async function executeScriptStep(index=0) {
 	var vsCodeSteps = scriptsSteps.vsCodeSteps;
 	const vsCodeStep = vsCodeSteps[index];
 	switch (vsCodeStep[1].scriptExecType) {
@@ -159,4 +162,21 @@ function getCurrentWorkspaceFolder() {
 	if (workspaceFolders) {
 		return workspaceFolders[0].uri.fsPath;
 	}
+}
+//function that gives a pick in the command pallet the list of all steps in the current script
+async function PickScriptStepToExecute() {	
+	let vsCodeSteps =  scriptsSteps.vsCodeSteps;
+	let ScriptStepsToPick = [];
+	for (let index = 0; index < vsCodeSteps.length; index++) {
+		ScriptStepsToPick.push(`Step ${index + 1} - ${vsCodeSteps[index][0].Description}`);
+	}	
+	vscode.window.showQuickPick(ScriptStepsToPick).then(async (value) => {
+		if (value) {			
+			//Create a regexp to find the number of the step
+			let regexp = /Step (\d+) /;
+			let stepNumber = parseInt(regexp.exec(value)[1]) - 1;
+			//convert the number to integer
+			executeScriptStep(stepNumber);
+		}
+	});	
 }

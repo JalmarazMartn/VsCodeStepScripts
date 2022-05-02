@@ -82,6 +82,14 @@ This command will open a file dialog and write the selected file in document pos
 
 This command will open a folder dialog and write the selected folder in document position.
 
+### Snippet "tpowwerShellExcution"
+
+This snippet helps us to write a powershell statement from command shell terminal execution. In other words, a powershell file execution from ms-dos command shell. The steps are:
+
+    1. Works inside a json file, a task.json or our own script step file.
+    2. Write tpowwerShellExcution in the file.
+    3. Write command statement to ejecute it and open a dialog to select the PS1 file.
+
 ## Requirements
 
 VsCode.
@@ -153,3 +161,7 @@ If there is no open editor with json step file, the extension will open it with 
 ### 0.0.16
 
 if in Opendocument step is not detailed the doc path, the extension will try to open it with the workspace root. So, you can only type "app.json" if the file is in the root of the workspace, avoiding to type all the path. This way you can re-use the steps json file in many workspaces.
+
+### 0.0.17
+
+New snippet "tpowwerShellExcution" to write a command shell state to execute a ps1 file.

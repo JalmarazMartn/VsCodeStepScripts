@@ -34,6 +34,7 @@ async function ShowStepHTMLView(context) {
     message => {
       const IsSkipMessageCommand = message.command.indexOf('Skip') > -1;
       const IsNextMessageCommand = message.command.indexOf('Next') > -1;
+      const IsPickScriptStepToExecuteMessageCommand = message.command.indexOf('PickScriptStepToExecute') > -1;
       CurrentStep = CurrentStep + 1;
       if (CurrentStep >= scriptsSteps.vsCodeSteps.length) {
         WebviewSteps.dispose();
@@ -51,6 +52,10 @@ async function ShowStepHTMLView(context) {
           });
       } else if (IsNextMessageCommand) {
         ExecuteCurrentStep();
+      }
+      else if (IsPickScriptStepToExecuteMessageCommand) {
+        PickScriptStepToExecute();
+        CurrentStep = CurrentStep - 1;
       }
       WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));        
     },
@@ -80,6 +85,7 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
     }    
     .button1 {background-color: #4CAF50;}
     .button2 {background-color: #D2691E;}
+    .button3 {background-color: #FFD700;}
     </style>
     </head>   	    
 	<body><br>Executed: ` +
@@ -88,6 +94,7 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
     nextScripStepdescription +
     `</br><button class="button button1" onclick="Next()">Next Step</button>	
   <button class="button button2" onclick="Skip()">Skip Next</button>
+  <button class="button button3" onclick="PickScriptStepToExecute()">Pick Exec</button>
     <Script>
     function Next() {
         const vscode = acquireVsCodeApi();
@@ -100,6 +107,13 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
         const vscode = acquireVsCodeApi();
       vscode.postMessage({
         command: "Skip",
+        text: "Nothing"
+      });
+      }
+      function PickScriptStepToExecute() {
+        const vscode = acquireVsCodeApi();
+      vscode.postMessage({
+        command: "PickScriptStepToExecute",
         text: "Nothing"
       });
       }
@@ -126,6 +140,12 @@ function ExecuteCurrentStep() {
   const ExecuteScript = require('./ExecuteScript.js');
   ExecuteScript.SetScriptsSteps(scriptsSteps);
   ExecuteScript.executeScriptStep(CurrentStep);
+}
+function PickScriptStepToExecute()
+{
+  const ExecuteScript = require('./ExecuteScript.js');
+  ExecuteScript.SetScriptsSteps(scriptsSteps);
+  ExecuteScript.PickScriptStepToExecute();
 }
 function ConfirmationModalMessage(message) {
   return new Promise((resolve, reject) => {
