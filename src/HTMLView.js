@@ -56,6 +56,7 @@ async function ShowStepHTMLView(context) {
       else if (IsPickScriptStepToExecuteMessageCommand) {
         PickScriptStepToExecute();
         CurrentStep = CurrentStep - 1;
+        WebviewSteps.dispose();
       }
       WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));        
     },
