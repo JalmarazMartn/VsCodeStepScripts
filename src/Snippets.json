@@ -21,13 +21,13 @@
       "       \"Description\": \"${1:StepDescription}\"",
       "    },",      
       "    {",
-      "       \"scriptExecType\": \"${2|task,extensionCommand,openDocument,openExternal,executeCommandShell|}\"",
+      "       \"scriptExecType\": ${2|\"task\",\"extensionCommand\",\"openDocument\",\"openExternal\",\"executeCommandShell\"|}",
       "    },",
       "    {",
       "       \"scriptArgument\": \"${3:Argument}\"",
       "    }",
       "]" 
     ],
-    "description": "JAM Init script steps file"    
+    "description": "JAM define script step"    
   }
 }
