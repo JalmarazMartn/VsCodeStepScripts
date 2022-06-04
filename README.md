@@ -169,3 +169,11 @@ New snippet "tpowwerShellExcution" to write a command shell state to execute a p
 ### 0.0.18
 
 New button in HTML view "Pick and Exec".
+
+#### 0.0.19
+
+Is posible I miss what I did in this realease. Sorry to few, few people that uses this crazy extension.
+
+### 0.0.20
+
+Fix script step snippet error, did not display options in execution type.
