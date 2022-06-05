@@ -1,0 +1,30 @@
+{
+    "Description": "New version",
+"vsCodeSteps": [
+    [
+        {"Description": "Delete current app file"},
+        {"scriptExecType": "executeCommandShell"},
+        {"scriptArgument": "del *.app"}
+    ],
+    [
+        {"Description": "open app.json file"},
+        {"scriptExecType": "openDocument"},
+        {"scriptArgument": "c:/Users/Jesus/Documents/AL/WarehouseAssistant/app.json"}
+    ],
+    [
+        {"Description": "Al package"},
+        {"scriptExecType": "extensionCommand"},
+        {"scriptArgument": "al.package"}
+    ],
+    [
+        {"Description": "Copy app file to share folder"},
+        {"scriptExecType": "executeCommandShell"},
+        {"scriptArgument": "copy *.app C:/Shared/"}
+    ],
+    [
+        {"Description": "Open target folder"},
+        {"scriptExecType": "openExternal"},
+        {"scriptArgument": "c:/Shared"}
+    ]
+    ]
+}
