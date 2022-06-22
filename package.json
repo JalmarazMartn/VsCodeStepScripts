@@ -17,6 +17,7 @@
 		"onCommand:vscodestepsscripts.getExtensions",
 		"onCommand:vscodestepsscripts.WriteFromFileDialog",
 		"onCommand:vscodestepsscripts.WriteFromFolderDialog",
+		"onCommand:vscodestepsscripts.replaceString",
 		"onStartupFinished"
 		],
 	"main": "./extension.js",
@@ -41,6 +42,10 @@
 			{
 				"command": "vscodestepsscripts.WriteFromFolderDialog",
 				"title": "JAM: Open a folder dialog and write selection in document"
+			},
+			{
+				"command": "vscodestepsscripts.replaceString",
+				"title": "JAM: Apply replacements in a document"
 			}
 		],
 		"snippets": [
