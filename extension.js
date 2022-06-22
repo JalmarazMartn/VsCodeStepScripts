@@ -39,12 +39,6 @@ function activate(context) {
 	});
 	context.subscriptions.push(WriteFromFileDialog);
 
-	let replaceString = vscode.commands.registerCommand('vscodestepsscripts.replaceString', function () {
-		let replaceString = require('./src/ReplaceString.js');
-		replaceString.replacestring();
-	});
-	context.subscriptions.push(replaceString);
-
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
 		{ language: 'json', scheme: 'file' },
 
