@@ -17,9 +17,12 @@ module.exports = {
 	SetScriptsSteps: function (NewScriptsSteps) {
 		SetScriptsSteps(NewScriptsSteps)
 	},
-	PickScriptStepToExecute: async function () {		
-		PickScriptStepToExecute();
-	}
+	PickAndExecuteScriptStep: async function () {
+		PickAndExecuteScriptStep();
+	},
+	PickStepNumber: async function () {
+		return await PickStepNumber();
+	}	
 };
 async function executeScriptSteps() {
 	scriptsSteps = await getJSONFromCurrentDoc();
@@ -55,7 +58,7 @@ async function getJSONFromDocName(DocName = '') {
 	return (JSONFromDoc);
 }
 
-async function executeScriptStep(index=0) {
+async function executeScriptStep(index = 0) {
 	var vsCodeSteps = scriptsSteps.vsCodeSteps;
 	const vsCodeStep = vsCodeSteps[index];
 	switch (vsCodeStep[1].scriptExecType) {
@@ -77,7 +80,7 @@ async function executeScriptStep(index=0) {
 		default:
 			ShowErrorPanel(`Unkown scriptExecType: ${vsCodeStep[1].scriptExecType}`);
 			break;
-	};	
+	};
 }
 async function executeTask(taskLabel = '') {
 	try {
@@ -88,7 +91,7 @@ async function executeTask(taskLabel = '') {
 	}
 }
 async function executeCommandShell(commendShell = '') {
-	createTaskWithoutWriteTaskJson('On the air',commendShell, '', '', '$tsc', []);
+	createTaskWithoutWriteTaskJson('On the air', commendShell, '', '', '$tsc', []);
 }
 
 async function executeExtensionCommand(commandName = '') {
@@ -129,7 +132,7 @@ function SetScriptsSteps(NewScriptsSteps) {
 	scriptsSteps = NewScriptsSteps;
 }
 //function create a new vscode task and run it without write task.json
-async function createTaskWithoutWriteTaskJson(taskName = '',taskCommand = '', taskArgs = '', taskGroup = '', taskProblemMatcher = '$tsc', taskProblemMatcherType = []) {
+async function createTaskWithoutWriteTaskJson(taskName = '', taskCommand = '', taskArgs = '', taskGroup = '', taskProblemMatcher = '$tsc', taskProblemMatcherType = []) {
 
 	let task = new vscode.Task(
 		{
@@ -164,19 +167,24 @@ function getCurrentWorkspaceFolder() {
 	}
 }
 //function that gives a pick in the command pallet the list of all steps in the current script
-async function PickScriptStepToExecute() {	
-	let vsCodeSteps =  scriptsSteps.vsCodeSteps;
+async function PickAndExecuteScriptStep() {
+	let stepNumber = await PickStepNumber();
+	executeScriptStep(stepNumber);
+
+}
+async function PickStepNumber() {
+	let vsCodeSteps = scriptsSteps.vsCodeSteps;
 	let ScriptStepsToPick = [];
+	let stepNumber = -1;
 	for (let index = 0; index < vsCodeSteps.length; index++) {
 		ScriptStepsToPick.push(`Step ${index + 1} - ${vsCodeSteps[index][0].Description}`);
-	}	
-	vscode.window.showQuickPick(ScriptStepsToPick).then(async (value) => {
-		if (value) {			
+	}
+	await vscode.window.showQuickPick(ScriptStepsToPick).then(async (value) => {
+		if (value) {
 			//Create a regexp to find the number of the step
 			let regexp = /Step (\d+) /;
-			let stepNumber = parseInt(regexp.exec(value)[1]) - 1;
-			//convert the number to integer
-			executeScriptStep(stepNumber);
+			stepNumber = parseInt(regexp.exec(value)[1]) - 1;
 		}
-	});	
+	});
+	return stepNumber;
 }

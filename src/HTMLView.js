@@ -31,7 +31,7 @@ async function ShowStepHTMLView(context) {
     }
   );
   WebviewSteps.webview.onDidReceiveMessage(
-    message => {
+    async function (message) {
       const IsSkipMessageCommand = message.command.indexOf('Skip') > -1;
       const IsNextMessageCommand = message.command.indexOf('Next') > -1;
       const IsPickScriptStepToExecuteMessageCommand = message.command.indexOf('PickScriptStepToExecute') > -1;
@@ -54,9 +54,10 @@ async function ShowStepHTMLView(context) {
         ExecuteCurrentStep();
       }
       else if (IsPickScriptStepToExecuteMessageCommand) {
-        PickScriptStepToExecute();
-        CurrentStep = CurrentStep - 1;
-        WebviewSteps.dispose();
+        //PickScriptStepToExecute();
+        //CurrentStep = CurrentStep - 1;
+        //WebviewSteps.dispose();
+        CurrentStep = await PickStepNumber()-1;
       }
       WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));        
     },
@@ -95,7 +96,7 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
     nextScripStepdescription +
     `</br><button class="button button1" onclick="Next()">Next Step</button>	
   <button class="button button2" onclick="Skip()">Skip Next</button>
-  <button class="button button3" onclick="PickScriptStepToExecute()">Pick Exec</button>
+  <button class="button button3" onclick="PickScriptStepToExecute()">Pick Next Step</button>
     <Script>
     function Next() {
         const vscode = acquireVsCodeApi();
@@ -146,7 +147,13 @@ function PickScriptStepToExecute()
 {
   const ExecuteScript = require('./ExecuteScript.js');
   ExecuteScript.SetScriptsSteps(scriptsSteps);
-  ExecuteScript.PickScriptStepToExecute();
+  ExecuteScript.PickAndExecuteScriptStep();
+}
+async function PickStepNumber()
+{
+  const ExecuteScript = require('./ExecuteScript.js');
+  ExecuteScript.SetScriptsSteps(scriptsSteps);  
+  return await ExecuteScript.PickStepNumber();
 }
 function ConfirmationModalMessage(message) {
   return new Promise((resolve, reject) => {

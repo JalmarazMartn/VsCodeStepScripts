@@ -177,3 +177,8 @@ Is posible I miss what I did in this realease. Sorry to few, few people that use
 ### 0.0.20
 
 Fix script step snippet error, did not display options in execution type.
+
+### 0.0.21
+
+Remove "Pick and Exec" button and replace it by new "Pcik Next Step" button. This button place in next step a pick from all steps from steps scripts.
+
