@@ -1,8 +1,14 @@
 const vscode = require('vscode');
-const commandName = 'tSelArguments';
+const commandArgName = 'Get argument depending on action';
+const commandExecTypeName = 'Get ExecType';
+const regexExecType = /"\s*scriptExecType\s*"\s*:\s*"\s*(.*)\s*"/;
 module.exports = {
 	SelectArguments: function () {
 		return (SelectArguments());
+	},
+	SelectExecType: function()
+	{
+		return (SelectExecType())
 	},
 	WriteFileDialogResultInCurrentEditPostion: async function () {
 		await WriteFileDialogResultInCurrentEditPostion();
@@ -13,12 +19,16 @@ module.exports = {
 }
 
 async function SelectArguments() {
+	if (!isEditingScriptArgument())
+	{
+		return;
+	}
 	const ScriptExecType = GetScriptExecType();
 	const SelectFileDialogOption = (ScriptExecType === 'openDocument') || (ScriptExecType === 'openExternal');
-	const commandCompletion = new vscode.CompletionItem(commandName);
+	const commandCompletion = new vscode.CompletionItem(commandArgName);
 	commandCompletion.kind = vscode.CompletionItemKind.Snippet;
-	commandCompletion.filterText = commandName;
-	commandCompletion.label = commandName;
+	commandCompletion.filterText = commandArgName;
+	commandCompletion.label = commandArgName;
 	if (SelectFileDialogOption) {
 		let SnippetcommandName = 'vscodestepsscripts.WriteFromFileDialog';
 		if (ScriptExecType == 'openExternal') {
@@ -28,8 +38,8 @@ async function SelectArguments() {
 			command: SnippetcommandName,
 			title: '',
 			arguments: []
-		}		
-		commandCompletion.insertText = commandName;
+		}
+		commandCompletion.insertText = commandArgName;
 	}
 	else {
 		commandCompletion.insertText = new vscode.SnippetString(await GetArgumentsFromType());
@@ -44,8 +54,7 @@ async function GetArgumentsFromType() {
 	if (ScriptExecType == 'extensionCommand') {
 		return await GetExtensionsCommands();
 	}
-	else
-	{
+	else {
 		if (ScriptExecType == 'task') {
 			return await GetWorkspaceTasks();
 		}
@@ -84,7 +93,7 @@ function convertElementToSnippetText(SourceElement = '') {
 	// @ts-ignore
 	ConvertedElement = ConvertedElement.replaceAll(')', '');
 	// @ts-ignore	
-	ConvertedElement = ConvertedElement.replaceAll('\\','/');
+	ConvertedElement = ConvertedElement.replaceAll('\\', '/');
 
 	return ConvertedElement;
 }
@@ -98,8 +107,7 @@ function GetScriptExecType() {
 		for (let i = currentlineNumber; i > 0; i--) {
 			const line = document.lineAt(i - 1);
 			const text = line.text;
-			const regex = /"\s*scriptExecType\s*"\s*:\s*"\s*(.*)\s*"/;
-			const match = regex.exec(text);
+			const match = regexExecType.exec(text);
 			if (match) {
 				return match[1];
 			}
@@ -108,6 +116,30 @@ function GetScriptExecType() {
 	}
 
 }
+function isEditingScriptExecType() {
+	return existsTextCurrLine('scriptExecType');
+}
+function isEditingScriptArgument()
+{
+	return existsTextCurrLine('scriptArgument');
+}
+function existsTextCurrLine(textToSearch='')
+{
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return false
+	}
+	const document = editor.document;
+	//get current position line in document
+	const currentlineNumber = editor.selection.start.line;
+	const currLine = document.lineAt(currentlineNumber);
+	const lineText = currLine.text;
+
+	if (lineText.search(textToSearch) >= 0) {
+		return true
+	}
+	return false;
+}
 async function WriteFileDialogResultInCurrentEditPostion() {
 	InsertTextInCurrentEditPostion(convertElementToSnippetText(await GetFileDialogResult(false)));
 }
@@ -115,12 +147,11 @@ async function WriteFolderDialogResultInCurrentEditPostion() {
 	InsertTextInCurrentEditPostion(convertElementToSnippetText(await GetFileDialogResult(true)));
 }
 
-async function InsertTextInCurrentEditPostion(NewText='')
-{
+async function InsertTextInCurrentEditPostion(NewText = '') {
 	const editor = vscode.window.activeTextEditor;
 	if (!editor) {
 		return;
-	}	
+	}
 	const document = editor.document;
 	if (!document) {
 		return;
@@ -130,20 +161,34 @@ async function InsertTextInCurrentEditPostion(NewText='')
 	const currentlineNumber = editor.selection.start.line;
 	const currentline = document.lineAt(currentlineNumber);
 	const currentlineText = currentline.text;
-	const commandNameStart = currentlineText.indexOf(commandName);
+	const commandNameStart = currentlineText.indexOf(commandArgName);
 	if (commandNameStart === -1) {
 		// @ts-ignore
 		NewText = NewText.replaceAll('"', '');
 	}
-	else {				
+	else {
 		const newStartPosition = new vscode.Position(currentlineNumber, commandNameStart);
-		const newEndPosition = new vscode.Position(currentlineNumber, commandNameStart+commandName.length);		
+		const newEndPosition = new vscode.Position(currentlineNumber, commandNameStart + commandArgName.length);
 		WSEdit.delete(document.uri, new vscode.Range(newStartPosition, newEndPosition));
 	}
-	WSEdit.insert(document.uri,editor.selection.end,NewText);
+	WSEdit.insert(document.uri, editor.selection.end, NewText);
 	await vscode.workspace.applyEdit(WSEdit);
 }
-
+async function SelectExecType() {
+	if (!isEditingScriptExecType())
+	{
+		return;
+	}
+	const commandCompletion = new vscode.CompletionItem(commandExecTypeName);
+	commandCompletion.kind = vscode.CompletionItemKind.Snippet;
+	commandCompletion.filterText = commandExecTypeName;
+	commandCompletion.label = commandExecTypeName;
+	const snippetExecType = new vscode.SnippetString(getExecTypeSeleccionSnippet());
+	commandCompletion.insertText = snippetExecType;
+	commandCompletion.detail = 'Get step exec type';
+	commandCompletion.documentation = '';
+	return [commandCompletion];
+}
 
 async function GetFileDialogResult(selectFolder = false) {
 	//set openFile
@@ -173,4 +218,16 @@ async function GetWorkspaceTasks() {
 	}
 	taskNames = '${1|' + taskNames + '|}';
 	return taskNames;
+}
+function getExecTypeSeleccionSnippet() {
+
+	//iterate in tasks and retuns an array of task names
+	let execTypes = '';
+	execTypes = execTypes + convertElementToSnippetText('task');
+	execTypes = execTypes + ',' + convertElementToSnippetText('extensionCommand');
+	execTypes = execTypes + ',' + convertElementToSnippetText('openDocument');
+	execTypes = execTypes + ',' + convertElementToSnippetText('openExternal');
+	execTypes = execTypes + ',' + convertElementToSnippetText('executeCommandShell');
+	execTypes = '${1|' + execTypes + '|}';
+	return execTypes;
 }

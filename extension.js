@@ -49,7 +49,19 @@ function activate(context) {
 				return ArgumentCompletion.SelectArguments();
 			}
 		},
-		'tSelArguments' // trigger
+		'' // trigger
+	));
+
+	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
+		{ language: 'json', scheme: 'file' },
+		{
+			// eslint-disable-next-line no-unused-vars
+			provideCompletionItems(document, position) {
+				const ArgumentCompletion = require('./src/ArgumentCompletion.js');
+				return ArgumentCompletion.SelectExecType();
+			}
+		},
+		'' // trigger
 	));
 
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(
