@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.22",
+	"version": "0.0.23",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -21,6 +21,26 @@
 		],
 	"main": "./extension.js",
 	"contributes": {
+		"menus": {			
+		"commandPalette": [
+			{
+				"command": "vscodestepsscripts.executeScript",
+				"when": "editorLangId == json"
+			},
+			{
+				"command": "vscodestepsscripts.treeView",
+				"when": "editorLangId == json"
+			},
+			{
+				"command": "vscodestepsscripts.WriteFromFileDialog",
+				"when": "editorLangId == json"
+			},
+			{
+				"command": "vscodestepsscripts.WriteFromFolderDialog",
+				"when": "editorLangId == json"
+			}
+		]
+		},		
 		"commands": [
 			{
 				"command": "vscodestepsscripts.executeScript",

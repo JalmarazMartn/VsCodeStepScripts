@@ -88,3 +88,7 @@ Remove "Pick and Exec" button and replace it by new "Pcik Next Step" button. Thi
 
 Remove TSelArguments snippet. Instead Type "Get argument depending on action" to get the same helps.
 Create new completion item "Get ExecType".
+
+### 0.0.23
+
+Hide commands outside documents to clean command palette.
