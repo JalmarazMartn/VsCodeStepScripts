@@ -12,6 +12,9 @@ async function ShowStepHTMLView(context) {
   const ExecuteScript = require('./ExecuteScript.js');
   CurrentStep = -1;
   scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+	if (!scriptsSteps) {
+		await fillJSONFromFavorites();
+	}
   if (!scriptsSteps) {
     //get a file name with dialog
     let fileName = await vscode.window.showOpenDialog({
@@ -159,4 +162,28 @@ function ConfirmationModalMessage(message) {
   return new Promise((resolve, reject) => {
     vscode.window.showInformationMessage(message, { modal: true }, 'Yes', 'No').then(resolve);
   });
+}
+async function fillJSONFromFavorites() {
+  const ExecuteScript = require('./ExecuteScript.js');  
+	const JSONFileURIs = GetFullPathFileJSONS();
+	if (JSONFileURIs) {
+		if (JSONFileURIs.length == 1)
+		{
+			scriptsSteps = await ExecuteScript.getJSONFromDocName(JSONFileURIs[0]);
+			return scriptsSteps;
+		}
+		await vscode.window.showQuickPick(JSONFileURIs).then(async (value) => {
+			if (value) {
+				scriptsSteps = await ExecuteScript.getJSONFromDocName(value);
+			}
+		});
+	}
+}
+function GetFullPathFileJSONS() {
+	var FullPathFileJSONS = [];
+	const ExtConf = vscode.workspace.getConfiguration('');
+	if (ExtConf) {
+		FullPathFileJSONS = ExtConf.get('JAMVScodestepsscripts.FavoritesScripts');
+	}
+	return (FullPathFileJSONS);
 }

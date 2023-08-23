@@ -67,6 +67,14 @@ Then you will see a tab with the action step excuted, and a button to execute ne
 
 Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting file.
 
+### Files precedence
+
+It is very important to clear what is the execution precedence when we raise the "JAM: Execute current VsCode Script" command. Depending the editor situation and extension configuration, the executed script file taken for the command will be:
+
+* Priority one. Open document in current editor.
+* If there is no json open document in the editor, the executed script will be the one configured in configuration parameter "JAMVScodestepsscripts.FavoritesScripts". If there are more than one favorites a quick pick will make you able to choose one.
+* If there is not any open document in the editor and we haven't configured favorites in setup, a dialog will be shown to pick a json script to execute.
+
 ### JSON in tree view
 
 with command "JAM: show current JSON in treeview" you can see the current json file in editor in a tree view. The tree view panel is shown in extension panel, at the bottom. With the title "EXPLORE JSON OBJECT". Not visible by default. The final (future) goal is to show installed extensions information, this way you can see the commands and their api.
@@ -96,6 +104,10 @@ This snippet helps us to write a powershell statement from command shell termina
 VsCode.
 
 ## Extension Settings
+
+This extension contributes the following settings:
+
+* `JAMVScodestepsscripts.FavoritesScripts`: You can set here json script file paths to have a sort of shortcut to these scripts. For further explanations read "Files precedence".
 
 ## Known Issues
 

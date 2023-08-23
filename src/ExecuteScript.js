@@ -22,7 +22,7 @@ module.exports = {
 	},
 	PickStepNumber: async function () {
 		return await PickStepNumber();
-	}	
+	}
 };
 async function executeScriptSteps() {
 	scriptsSteps = await getJSONFromCurrentDoc();
@@ -32,7 +32,8 @@ async function executeScriptSteps() {
 			canSelectFiles: true,
 			canSelectFolders: false,
 			canSelectMany: false,
-			openLabel: 'Select a file'
+			openLabel: 'Select a file',
+			filters: { 'JSON': ['json'] }
 		});
 		scriptsSteps = await getJSONFromDocName(fileName[0].fsPath);
 	}

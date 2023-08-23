@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.23",
+	"version": "0.0.24",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -23,10 +23,6 @@
 	"contributes": {
 		"menus": {			
 		"commandPalette": [
-			{
-				"command": "vscodestepsscripts.executeScript",
-				"when": "editorLangId == json"
-			},
 			{
 				"command": "vscodestepsscripts.treeView",
 				"when": "editorLangId == json"
@@ -77,6 +73,15 @@
 				"visibility": "hidden"
 				}
 			]
+		},
+		"configuration":{
+			"title": "JAM VSCode Scripts",
+			"properties": {
+				"JAMVScodestepsscripts.FavoritesScripts": {
+					"type": "array",
+					"description": "Set of absolute paths of favorites script shortcut"
+				}				
+			}
 		}
 	},
 	"scripts": {
