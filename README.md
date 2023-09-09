@@ -109,6 +109,8 @@ This extension contributes the following settings:
 
 * `JAMVScodestepsscripts.FavoritesScripts`: You can set here json script file paths to have a sort of shortcut to these scripts. For further explanations read "Files precedence".
 
+* `JAMVScodestepsscripts.confirmOnSkip`: Ask confirm before skip an step
+
 ## Known Issues
 
 ## Release Notes

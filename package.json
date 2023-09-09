@@ -80,7 +80,12 @@
 				"JAMVScodestepsscripts.FavoritesScripts": {
 					"type": "array",
 					"description": "Set of absolute paths of favorites script shortcut"
-				}				
+				}
+			},
+			"JAMVScodestepsscripts.confirmOnSkip":
+			{
+				"type": "boolean",
+				"description": "Ask for confirm before skip an step"
 			}
 		}
 	},

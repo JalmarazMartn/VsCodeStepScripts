@@ -5,9 +5,6 @@ module.exports = {
   ShowStepHTMLView: function (context) { ShowStepHTMLView(context) }
 }
 
-function EscapeRegExp(string) {
-  return string.replace(/[.*+\-?^${}()|[\]\\\/]/g, '\\$&'); // $& significa toda la cadena coincidente
-}
 async function ShowStepHTMLView(context) {
   const ExecuteScript = require('./ExecuteScript.js');
   CurrentStep = -1;
@@ -46,6 +43,8 @@ async function ShowStepHTMLView(context) {
       if (IsSkipMessageCommand) {
         const ConfirmationSkipMessage = 'Do you want to skip step"' + GetCurrentDescription(CurrentStep) + '"?';
         //if (vscode.window.showInformationMessage(ConfirmationSkipMessage,{modal:true}, 'Yes', 'No') == 'No') {
+        if (GetConfirmRequired())
+        {
         vscode.window.showInformationMessage(ConfirmationSkipMessage, { modal: true }, 'Yes', 'No').then(
           (resolve) => {
             if (resolve == 'No') {
@@ -53,6 +52,7 @@ async function ShowStepHTMLView(context) {
             }
             WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
           });
+        }
       } else if (IsNextMessageCommand) {
         ExecuteCurrentStep();
       }
@@ -158,11 +158,6 @@ async function PickStepNumber()
   ExecuteScript.SetScriptsSteps(scriptsSteps);  
   return await ExecuteScript.PickStepNumber();
 }
-function ConfirmationModalMessage(message) {
-  return new Promise((resolve, reject) => {
-    vscode.window.showInformationMessage(message, { modal: true }, 'Yes', 'No').then(resolve);
-  });
-}
 async function fillJSONFromFavorites() {
   const ExecuteScript = require('./ExecuteScript.js');  
 	const JSONFileURIs = GetFullPathFileJSONS();
@@ -186,4 +181,15 @@ function GetFullPathFileJSONS() {
 		FullPathFileJSONS = ExtConf.get('JAMVScodestepsscripts.FavoritesScripts');
 	}
 	return (FullPathFileJSONS);
+}
+function GetConfirmRequired()
+{
+	const ExtConf = vscode.workspace.getConfiguration('');
+  let confirmRequired = false;
+	if (ExtConf) {
+		const confirmOnSkip = ExtConf.get('JAMVScodestepsscripts.confirmOnSkip');
+    if (confirmOnSkip)
+      {confirmRequired = true}
+	}
+	return (confirmRequired);
 }
