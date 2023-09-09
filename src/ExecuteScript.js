@@ -1,3 +1,4 @@
+const { loadavg } = require('os');
 const vscode = require('vscode');
 var scriptsSteps = {};
 module.exports = {
@@ -117,7 +118,7 @@ async function openDocument(documentPath = '') {
 }
 async function openExternal(elementPath = '') {
 	try {
-		vscode.env.openExternal(vscode.Uri.parse(elementPath));
+		vscode.env.openExternal(vscode.Uri.parse(convertElementPath(elementPath)));
 	}
 	catch (error) {
 		ShowErrorPanel(error.message);
@@ -159,7 +160,7 @@ function fileExists(filePath) {
 	} catch (err) {
 		return false;
 	}
-	return true;
+	return true;	
 }
 function getCurrentWorkspaceFolder() {
 	let workspaceFolders = vscode.workspace.workspaceFolders;
@@ -189,3 +190,29 @@ async function PickStepNumber() {
 	});
 	return stepNumber;
 }
+function convertElementPath(elementPath='')
+{
+	const fs = require('fs');
+	if (isValidHttpUrl(elementPath))
+	{
+		return elementPath
+	}
+	if (fs.existsSync(elementPath))
+	{
+		return elementPath;
+	}
+	let newElementPath = getCurrentWorkspaceFolder() + '/' + elementPath;
+	newElementPath = newElementPath.replace(/\\/g,'/');
+	return newElementPath;
+}
+function isValidHttpUrl(elementPath) {
+	let url;
+	
+	try {
+	  url = new URL(elementPath);
+	} catch (_) {
+	  return false;  
+	}
+  
+	return url.protocol === "http:" || url.protocol === "https:";
+  }
