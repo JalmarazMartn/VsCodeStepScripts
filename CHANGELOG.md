@@ -92,3 +92,7 @@ Create new completion item "Get ExecType".
 ### 0.0.23
 
 Hide commands outside documents to clean command palette.
+
+### 0.0.25
+
+New configuration set JAMVScodestepsscripts.confirmOnSkip. Open relative paths.
