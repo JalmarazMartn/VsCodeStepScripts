@@ -96,3 +96,7 @@ Hide commands outside documents to clean command palette.
 ### 0.0.25
 
 New configuration set JAMVScodestepsscripts.confirmOnSkip. Open relative paths.
+
+### 0.0.26
+
+New setting JAMVScodestepsscripts.confirmOnSkip did not work. Fixed.

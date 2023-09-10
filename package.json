@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.25",
+	"version": "0.0.26",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -80,12 +80,12 @@
 				"JAMVScodestepsscripts.FavoritesScripts": {
 					"type": "array",
 					"description": "Set of absolute paths of favorites script shortcut"
-				}
-			},
+				},
 			"JAMVScodestepsscripts.confirmOnSkip":
 			{
 				"type": "boolean",
 				"description": "Ask for confirm before skip an step"
+			}				
 			}
 		}
 	},
