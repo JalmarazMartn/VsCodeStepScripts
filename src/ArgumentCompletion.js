@@ -1,6 +1,5 @@
 const vscode = require('vscode');
 const commandArgName = 'Get argument depending on action';
-const commandExecTypeName = 'Get ExecType';
 const regexExecType = /"\s*scriptExecType\s*"\s*:\s*"\s*(.*)\s*"/;
 module.exports = {
 	SelectArguments: function () {
@@ -15,7 +14,7 @@ module.exports = {
 	},
 	WriteFolderDialogResultInCurrentEditPostion: async function () {
 		await WriteFolderDialogResultInCurrentEditPostion();
-	}
+	}	
 }
 
 async function SelectArguments() {
@@ -175,19 +174,17 @@ async function InsertTextInCurrentEditPostion(NewText = '') {
 	await vscode.workspace.applyEdit(WSEdit);
 }
 async function SelectExecType() {
+	let commandCompletion = [];
 	if (!isEditingScriptExecType())
 	{
 		return;
 	}
-	const commandCompletion = new vscode.CompletionItem(commandExecTypeName);
-	commandCompletion.kind = vscode.CompletionItemKind.Snippet;
-	commandCompletion.filterText = commandExecTypeName;
-	commandCompletion.label = commandExecTypeName;
-	const snippetExecType = new vscode.SnippetString(getExecTypeSeleccionSnippet());
-	commandCompletion.insertText = snippetExecType;
-	commandCompletion.detail = 'Get step exec type';
-	commandCompletion.documentation = '';
-	return [commandCompletion];
+    commandCompletion.push(new vscode.CompletionItem(convertElementToSnippetText("task"), vscode.CompletionItemKind.Constant));
+		commandCompletion.push(new vscode.CompletionItem(convertElementToSnippetText("extensionCommand"), vscode.CompletionItemKind.Constant));
+	commandCompletion.push(new vscode.CompletionItem(convertElementToSnippetText("openDocument"), vscode.CompletionItemKind.Constant));
+	commandCompletion.push(new vscode.CompletionItem(convertElementToSnippetText("openExternal"), vscode.CompletionItemKind.Constant));
+	commandCompletion.push(new vscode.CompletionItem(convertElementToSnippetText("executeCommandShell"), vscode.CompletionItemKind.Constant));		
+    return commandCompletion;
 }
 
 async function GetFileDialogResult(selectFolder = false) {
@@ -218,16 +215,4 @@ async function GetWorkspaceTasks() {
 	}
 	taskNames = '${1|' + taskNames + '|}';
 	return taskNames;
-}
-function getExecTypeSeleccionSnippet() {
-
-	//iterate in tasks and retuns an array of task names
-	let execTypes = '';
-	execTypes = execTypes + convertElementToSnippetText('task');
-	execTypes = execTypes + ',' + convertElementToSnippetText('extensionCommand');
-	execTypes = execTypes + ',' + convertElementToSnippetText('openDocument');
-	execTypes = execTypes + ',' + convertElementToSnippetText('openExternal');
-	execTypes = execTypes + ',' + convertElementToSnippetText('executeCommandShell');
-	execTypes = '${1|' + execTypes + '|}';
-	return execTypes;
 }

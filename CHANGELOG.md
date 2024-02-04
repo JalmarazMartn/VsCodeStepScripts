@@ -100,3 +100,7 @@ New configuration set JAMVScodestepsscripts.confirmOnSkip. Open relative paths.
 ### 0.0.26
 
 New setting JAMVScodestepsscripts.confirmOnSkip did not work. Fixed.
+
+### 0.0.27
+
+Improvements in completion item for script step exec type
