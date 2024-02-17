@@ -43,7 +43,7 @@ scriptArgument have diferent definitions depending "scriptExecType" options:
 
 ## Snippet to help arguments selection
 
-![alt text](https://github.com/JalmarazMartn/JALTranslationsMngt/blob/master/images/selectCommand.gif?raw=true)
+![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/selectCommand.gif?raw=true)
 
 
 If you are in a new step, in Argument setup you can use completion item "Get argument depending on action" to set the argument of the step.
