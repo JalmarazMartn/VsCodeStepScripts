@@ -40,7 +40,7 @@ async function GetExtensionsString() {
                 if (extensionsString !== '') { extensionsString += ',' }
                 extensionsString = extensionsString + '{"' + Extension.id + '":';
                 extensionsString = extensionsString + JSON.stringify(ExtensionCommands) + '}';
-                GetExtensionAPI(Extension.id);
+                //GetExtensionAPI(Extension.id);
             }
         }
         catch (error) {
