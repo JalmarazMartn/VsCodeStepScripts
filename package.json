@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.27",
+	"version": "0.0.28",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.46.0"
@@ -13,25 +13,25 @@
 	],
 	"activationEvents": [
 		"onStartupFinished"
-		],
+	],
 	"main": "./extension.js",
 	"contributes": {
-		"menus": {			
-		"commandPalette": [
-			{
-				"command": "vscodestepsscripts.treeView",
-				"when": "editorLangId == json"
-			},
-			{
-				"command": "vscodestepsscripts.WriteFromFileDialog",
-				"when": "editorLangId == json"
-			},
-			{
-				"command": "vscodestepsscripts.WriteFromFolderDialog",
-				"when": "editorLangId == json"
-			}
-		]
-		},		
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "vscodestepsscripts.treeView",
+					"when": "editorLangId == json"
+				},
+				{
+					"command": "vscodestepsscripts.WriteFromFileDialog",
+					"when": "editorLangId == json"
+				},
+				{
+					"command": "vscodestepsscripts.WriteFromFolderDialog",
+					"when": "editorLangId == json"
+				}
+			]
+		},
 		"commands": [
 			{
 				"command": "vscodestepsscripts.executeScript",
@@ -61,26 +61,29 @@
 			}
 		],
 		"views": {
-			"explorer":[
+			"explorer": [
 				{
-				"id": "treeView",
-				"name": "Expore JSON object",
-				"visibility": "hidden"
+					"id": "treeView",
+					"name": "Expore JSON object",
+					"visibility": "hidden"
 				}
 			]
 		},
-		"configuration":{
+		"configuration": {
 			"title": "JAM VSCode Scripts",
 			"properties": {
 				"JAMVScodestepsscripts.FavoritesScripts": {
 					"type": "array",
 					"description": "Set of absolute paths of favorites script shortcut"
 				},
-			"JAMVScodestepsscripts.confirmOnSkip":
-			{
-				"type": "boolean",
-				"description": "Ask for confirm before skip an step"
-			}				
+				"JAMVScodestepsscripts.confirmOnSkip": {
+					"type": "boolean",
+					"description": "Ask for confirm before skip an step"
+				},
+				"JAMVScodestepsscripts.customizedCommands": {
+					"type": "array",
+					"description": "Set customized command files names here"
+				}
 			}
 		}
 	},

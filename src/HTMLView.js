@@ -6,6 +6,7 @@ module.exports = {
 }
 
 async function ShowStepHTMLView(context) {
+
   const ExecuteScript = require('./ExecuteScript.js');
   CurrentStep = -1;
   scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
@@ -50,7 +51,7 @@ async function ShowStepHTMLView(context) {
             if (resolve == 'No') {
               CurrentStep = CurrentStep - 1;                                          
             }
-            WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
+            WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1),context);
           });
         }
       } else if (IsNextMessageCommand) {
@@ -62,15 +63,26 @@ async function ShowStepHTMLView(context) {
         //WebviewSteps.dispose();
         CurrentStep = await PickStepNumber()-1;
       }
-      WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));        
+      WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1),context);        
     },
     undefined,
     context.subscriptions
   );
   ExecuteCurrentStep();
-  WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1));
+  WebviewSteps.webview.html = GetHTMLContent(GetCurrentDescription(CurrentStep), GetCurrentDescription(CurrentStep + 1),context);
 }
+function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription = '',context) 
+{
+  const path = require('path');
+  const fs = require('fs');
+  const filePath = context.asAbsolutePath(path.join('src', 'html', 'HTMLView.html'));
+  let FinalTable = fs.readFileSync(filePath, 'utf8');
+  FinalTable = FinalTable.replace('currScripStepdescription',currScripStepdescription);
+  FinalTable = FinalTable.replace('nextScripStepdescription',nextScripStepdescription);
+  return FinalTable;
 
+}
+/*
 function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription = '') {
   let FinalTable = '';
   FinalTable = `
@@ -128,7 +140,7 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
   </html>   	
 	`
   return FinalTable;
-}
+}*/
 function GetCurrentDescription(index = 0) {
   if (index == -1) {
     return 'Begin with Next Button';
