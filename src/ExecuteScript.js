@@ -1,4 +1,3 @@
-const { loadavg } = require('os');
 const vscode = require('vscode');
 var scriptsSteps = {};
 module.exports = {

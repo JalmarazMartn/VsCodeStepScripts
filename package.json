@@ -12,11 +12,6 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:vscodestepsscripts.executeScript",
-		"onCommand:vscodestepsscripts.treeView",
-		"onCommand:vscodestepsscripts.getExtensions",
-		"onCommand:vscodestepsscripts.WriteFromFileDialog",
-		"onCommand:vscodestepsscripts.WriteFromFolderDialog",
 		"onStartupFinished"
 		],
 	"main": "./extension.js",

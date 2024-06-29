@@ -162,11 +162,11 @@ async function fillJSONFromFavorites() {
   const ExecuteScript = require('./ExecuteScript.js');  
 	const JSONFileURIs = GetFullPathFileJSONS();
 	if (JSONFileURIs) {
-		if (JSONFileURIs.length == 1)
+		/*if (JSONFileURIs.length == 1)
 		{
 			scriptsSteps = await ExecuteScript.getJSONFromDocName(JSONFileURIs[0]);
 			return scriptsSteps;
-		}
+		}*/
 		await vscode.window.showQuickPick(JSONFileURIs).then(async (value) => {
 			if (value) {
 				scriptsSteps = await ExecuteScript.getJSONFromDocName(value);
