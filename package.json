@@ -52,6 +52,10 @@
 			{
 				"command": "vscodestepsscripts.WriteFromFolderDialog",
 				"title": "JAM: Open a folder dialog and write selection in document"
+			},
+			{
+				"command": "vscodestepsscripts.execCustomCommand",
+				"title": "JAM. Execute a customized command assembled by yourself"
 			}
 		],
 		"snippets": [

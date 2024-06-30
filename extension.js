@@ -27,6 +27,14 @@ function activate(context) {
 	});
 	context.subscriptions.push(getExtensions);
 
+	let disposableCustomCommand = vscode.commands.registerCommand('vscodestepsscripts.execCustomCommand', function () {
+		//const executeSteps = require('./src/ExecuteScript');				
+		//executeSteps.executeScriptSteps(context);
+		const customCommand = require('./src/customizedCommand.js');
+		customCommand.executeCustomizedCommand();
+	});
+	context.subscriptions.push(disposableCustomCommand);
+
 	let WriteFromFolderDialog = vscode.commands.registerCommand('vscodestepsscripts.WriteFromFolderDialog', function () {
 		let ArgumentCompletion = require('./src/ArgumentCompletion.js');
 		ArgumentCompletion.WriteFolderDialogResultInCurrentEditPostion();
