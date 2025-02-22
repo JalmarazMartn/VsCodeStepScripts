@@ -1,6 +1,7 @@
 const vscode = require('vscode');
 let CurrentStep = -1;
 var scriptsSteps = {};
+let executionCounter = 0;
 module.exports = {
   ShowStepHTMLView: function (context) { ShowStepHTMLView(context) }
 }
@@ -37,6 +38,7 @@ async function ShowStepHTMLView(context) {
       const IsNextMessageCommand = message.command.indexOf('Next') > -1;
       const IsPickScriptStepToExecuteMessageCommand = message.command.indexOf('PickScriptStepToExecute') > -1;
       CurrentStep = CurrentStep + 1;
+      executionCounter = executionCounter + 1;
       if (CurrentStep >= scriptsSteps.vsCodeSteps.length) {
         WebviewSteps.dispose();
         return;
@@ -77,7 +79,7 @@ function GetHTMLContent(currScripStepdescription = '', nextScripStepdescription 
   const fs = require('fs');
   const filePath = context.asAbsolutePath(path.join('src', 'html', 'HTMLView.html'));
   let FinalTable = fs.readFileSync(filePath, 'utf8');
-  FinalTable = FinalTable.replace('currScripStepdescription',currScripStepdescription);
+  FinalTable = FinalTable.replace('currScripStepdescription',executionCounter.toString()+ ' ' + currScripStepdescription);
   FinalTable = FinalTable.replace('nextScripStepdescription',nextScripStepdescription);
   return FinalTable;
 

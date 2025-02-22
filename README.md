@@ -66,7 +66,7 @@ In adition, to select ExecType can be used completion item "Get ExecType". This 
 You can create JSON file with steps configuration and when complete the file, execute command "JAM: Execute current VsCode Script".
 Then you will see a tab with the action step excuted, and a button to execute next step until the end all the steps of the .json file:
 
-![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/NextStep.png?raw=true)
+![alt text](https://github.com/JalmarazMartn/VsCodeStepScripts/blob/master/images/tscriptstepExecution.gif?raw=true)
 
 Snippets TJAMInitStepFile and TJAMScriptStep will help you to build the json scripting file.
 
