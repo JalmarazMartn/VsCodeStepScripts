@@ -174,16 +174,15 @@ async function PickStepNumber()
 }
 async function fillJSONFromFavorites() {
   const ExecuteScript = require('./ExecuteScript.js');  
-	const JSONFileURIs = GetFullPathFileJSONS();
-	if (JSONFileURIs) {
-		/*if (JSONFileURIs.length == 1)
-		{
-			scriptsSteps = await ExecuteScript.getJSONFromDocName(JSONFileURIs[0]);
-			return scriptsSteps;
-		}*/
-		await vscode.window.showQuickPick(JSONFileURIs).then(async (value) => {
+	const JSONFileURIs = GetFullPathFileJSONS();  
+  if (JSONFileURIs) {
+    const fileNameURIArray = JSONFileURIs.map(uri => {
+      const path = require('path');
+      return { label: path.basename(uri), uri: uri };
+    });    
+		await vscode.window.showQuickPick(fileNameURIArray).then(async (value) => {
 			if (value) {
-				scriptsSteps = await ExecuteScript.getJSONFromDocName(value);
+				scriptsSteps = await ExecuteScript.getJSONFromDocName(value.uri);
 			}
 		});
 	}

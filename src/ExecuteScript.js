@@ -55,9 +55,13 @@ async function getJSONFromCurrentDoc() {
 }
 async function getJSONFromDocName(DocName = '') {
 	let Document = await vscode.workspace.openTextDocument(DocName);
-	const JSONFromDoc = JSON.parse((Document.getText()));
-	return (JSONFromDoc);
-}
+	try {
+		const JSONFromDoc = JSON.parse(Document.getText());
+		return JSONFromDoc;
+	} catch (error) {
+		return;
+	}
+	}
 
 async function executeScriptStep(index = 0) {
 	var vsCodeSteps = scriptsSteps.vsCodeSteps;
@@ -159,7 +163,7 @@ function fileExists(filePath) {
 	} catch (err) {
 		return false;
 	}
-	return true;	
+	return true;
 }
 function getCurrentWorkspaceFolder() {
 	let workspaceFolders = vscode.workspace.workspaceFolders;
@@ -189,29 +193,26 @@ async function PickStepNumber() {
 	});
 	return stepNumber;
 }
-function convertElementPath(elementPath='')
-{
+function convertElementPath(elementPath = '') {
 	const fs = require('fs');
-	if (isValidHttpUrl(elementPath))
-	{
+	if (isValidHttpUrl(elementPath)) {
 		return elementPath
 	}
-	if (fs.existsSync(elementPath))
-	{
+	if (fs.existsSync(elementPath)) {
 		return elementPath;
 	}
 	let newElementPath = getCurrentWorkspaceFolder() + '/' + elementPath;
-	newElementPath = newElementPath.replace(/\\/g,'/');
+	newElementPath = newElementPath.replace(/\\/g, '/');
 	return newElementPath;
 }
 function isValidHttpUrl(elementPath) {
 	let url;
-	
+
 	try {
-	  url = new URL(elementPath);
+		url = new URL(elementPath);
 	} catch (_) {
-	  return false;  
+		return false;
 	}
-  
+
 	return url.protocol === "http:" || url.protocol === "https:";
-  }
+}

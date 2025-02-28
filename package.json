@@ -6,7 +6,7 @@
 	"version": "0.0.28",
 	"icon": "images/Faster.png",
 	"engines": {
-		"vscode": "^1.46.0"
+		"vscode": "^1.93.0"
 	},
 	"categories": [
 		"Other"
