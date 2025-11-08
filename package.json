@@ -3,7 +3,7 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.28",
+	"version": "0.0.29",
 	"icon": "images/Faster.png",
 	"engines": {
 		"vscode": "^1.93.0"
@@ -87,6 +87,11 @@
 				"JAMVScodestepsscripts.customizedCommands": {
 					"type": "array",
 					"description": "Set customized command files names here"
+				},
+				"JAMVScodestepsscripts.scriptWhenOpenWS": {
+					"type": "string",
+					"format": "uri",
+					"description": "Show information messages during script execution"
 				}
 			}
 		}

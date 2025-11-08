@@ -3,14 +3,18 @@ let CurrentStep = -1;
 var scriptsSteps = {};
 let executionCounter = 0;
 module.exports = {
-  ShowStepHTMLView: function (context) { ShowStepHTMLView(context) }
+  ShowStepHTMLView: function (context,eventScript) { ShowStepHTMLView(context,eventScript) },
 }
 
-async function ShowStepHTMLView(context) {
+async function ShowStepHTMLView(context,eventScript) {
 
   const ExecuteScript = require('./ExecuteScript.js');
   CurrentStep = -1;
-  scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+  scriptsSteps = eventScript;
+  if (!scriptsSteps)
+  {
+    scriptsSteps = await ExecuteScript.getJSONFromCurrentDoc();
+  }
 	if (!scriptsSteps) {
 		await fillJSONFromFavorites();
 	}

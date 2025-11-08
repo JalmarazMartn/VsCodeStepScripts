@@ -10,6 +10,8 @@ This extension executes scripts with several steps, that performs these three ki
 
 You must give the script of step in a json format. You can compose it following intructions bellow.
 
+Another feature of the extension is to open a custom script when you open a workspace, if you set the script path in configuration parameter "JAMVScodestepsscripts.scriptWhenOpenWS".
+
 ## Create json Step file
 
 In a new and empty json file type snippet "TJAMInitStepFile" and it will bring the format of the scrip file.
@@ -113,6 +115,8 @@ This extension contributes the following settings:
 * `JAMVScodestepsscripts.FavoritesScripts`: You can set here json script file paths to have a sort of shortcut to these scripts. For further explanations read "Files precedence".
 
 * `JAMVScodestepsscripts.confirmOnSkip`: Ask confirm before skip an step
+
+* `JAMVScodestepsscripts.scriptWhenOpenWS`: Set a script file to be executed when a workspace is opened.
 
 ## Known Issues
 

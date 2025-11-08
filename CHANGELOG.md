@@ -108,3 +108,7 @@ Improvements in completion item for script step exec type
 ### 0.0.28
 
 When favourite script is only one in setings, show the choice anyway to know how you are doing, instead implicit execution without dialog.
+
+### 0.0.29
+
+New setting JAMVScodestepsscripts.scriptWhenOpenWS to set a script file to be executed when a workspace is opened.

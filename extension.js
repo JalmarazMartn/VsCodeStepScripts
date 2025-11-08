@@ -1,3 +1,4 @@
+const { request } = require('http');
 const vscode = require('vscode');
 /**
  * @param {vscode.ExtensionContext} context
@@ -84,6 +85,9 @@ function activate(context) {
 		},
 		'tpowwerShellExcution' // trigger
 	));
+	const eventSusbscription = require('./src/eventsSubscriptions.js');
+	eventSusbscription.executeConfScript(context);
+	
 
 	// @ts-ignore
 	exports.activate = activate;

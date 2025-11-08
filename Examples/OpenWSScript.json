@@ -1,0 +1,16 @@
+{
+    "Description": "Pull when open WS",
+"vsCodeSteps": [
+ [
+     {
+        "Description": "Pull when open WS"
+     },
+     {
+        "scriptExecType": "extensionCommand"
+     },
+     {
+        "scriptArgument": "git.pull"
+     }
+ ]
+    ]
+}
