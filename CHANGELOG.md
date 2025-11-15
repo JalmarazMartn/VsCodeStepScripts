@@ -112,3 +112,7 @@ When favourite script is only one in setings, show the choice anyway to know how
 ### 0.0.29
 
 New setting JAMVScodestepsscripts.scriptWhenOpenWS to set a script file to be executed when a workspace is opened.
+
+### 0.0.30
+
+Fined tuning of new feature scriptWhenOpenWS. Not raise if not WS opened.

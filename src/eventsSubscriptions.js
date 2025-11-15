@@ -7,6 +7,10 @@ async function executeConfScript(context) {
     //get configuration param scriptWhenOpenWS
     const config = vscode.workspace.getConfiguration();
     const scriptWhenOpenWS = config.get('JAMVScodestepsscripts.scriptWhenOpenWS');
+    const workspaceFolders = vscode.workspace.workspaceFolders;
+    if (!workspaceFolders) {
+        return;
+    }
     if (!scriptWhenOpenWS) {
         return;
     }

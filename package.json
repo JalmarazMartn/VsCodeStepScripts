@@ -3,10 +3,10 @@
 	"displayName": "VsCode assistant maker",
 	"description": "Configure and execute assistants with steps that execute taks, extension commands and open documents.",
 	"publisher": "JessAlmarazMartin",
-	"version": "0.0.29",
+	"version": "0.0.30",
 	"icon": "images/Faster.png",
 	"engines": {
-		"vscode": "^1.93.0"
+		"vscode": "^1.93.1"
 	},
 	"categories": [
 		"Other"
