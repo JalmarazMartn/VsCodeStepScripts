@@ -1,0 +1,1 @@
+Review last diff commit changes an suggest a concise commit message summarizing the changes made.

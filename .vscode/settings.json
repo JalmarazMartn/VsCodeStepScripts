@@ -1,0 +1,6 @@
+{
+    "chat.promptFiles": true,
+    "chat.promptFilesLocations": {
+        "./.prompts/": true
+    },
+}
